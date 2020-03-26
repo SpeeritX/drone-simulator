@@ -1,29 +1,32 @@
 # README #
 
-This README would normally document whatever steps are necessary to get your application up and running.
 
 ### What is this repository for? ###
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+* This repository is a simple drone simulation project
+* version 1.0.0
+
 
 ### How do I get set up? ###
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+* Installation
+    -install the necessary libraries using  pip install 'library'
+        - pygame (for graphic)
+        - pymunk (for physic)
 
-### Contribution guidelines ###
+* run the script main.py
 
-* Writing tests
-* Code review
-* Other guidelines
 
-### Who do I talk to? ###
+### controll ###
 
-* Repo owner or admin
-* Other community or team contact
+* key up -> temporary engine start: perpendicular direction
+* key right/left -> temporary engine start: perpendicular direction but at the engine point
+* key r -> creating a new drone that can be controlled but without removing the old one
+* key q/esc -> exit the program
+
+### TODO? ###
+
+* key r should delete the old drone
+* improvement physics
+* converting control from event to functions
+* under the influence of high force, the walls let the objects pass
