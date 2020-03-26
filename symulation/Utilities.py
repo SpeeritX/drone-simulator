@@ -35,7 +35,7 @@ class Utilities:
                                                           (self.offset, self.offset), 3)]
 
         for s in staticBorder:
-            s.friction = 10.
+            s.friction = 1
             s.group = 1
 
         return staticBorder

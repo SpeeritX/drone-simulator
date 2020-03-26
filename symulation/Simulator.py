@@ -14,13 +14,19 @@ class Simulator:
 
     def __init__(self):
 
-        self.width, self.height = 800, 600
+        self.width, self.height = 2000, 800
         self.offset = 10
-        self.enginePower = 2
+        self.enginePower = 0.003
         self.running = False
 
         self.startPosition = (100, 100)
         self.pyGameInit()
+
+        if pygame.joystick.get_count() > 0:
+            self.joystick = pygame.joystick.Joystick(0)
+            self.joystick.init()
+        else:
+            self.joystick = None
 
         self.physics = Physics(self.screen)
 
@@ -49,23 +55,52 @@ class Simulator:
             elif event.type == KEYDOWN and event.key == K_r:
                 self.body = self.drone.getDrone(self.startPosition)
 
-            elif event.type == KEYDOWN and event.key == K_LEFT:
-                # python doesn't easily support enums so 1 means left :D
-                # maybe someday TODO
-                self.physics.engineProcess( self.body, self.enginePower, self.drone.getEdges(1))
+        keys = pygame.key.get_pressed()
+        if keys[K_LEFT]:
+            # python doesn't easily support enums so 1 means left :D
+            # maybe someday TODO
+            self.physics.engineProcess(self.body, self.enginePower * 0.001, self.drone.getEdges(1))
 
-            elif event.type == KEYDOWN and event.key == K_RIGHT:
-                self.physics.engineProcess( self.body, self.enginePower, self.drone.getEdges(2))
+        if keys[K_RIGHT]:
+            self.physics.engineProcess(self.body, self.enginePower * 0.001, self.drone.getEdges(2))
 
-            elif event.type == KEYDOWN and event.key == K_UP:
-                self.physics.engineProcess( self.body, self.enginePower*8)
+        if keys[K_UP]:
+            self.physics.engineProcess(self.body, self.enginePower * 4)
+
+        if self.joystick is not None:
+            self.handleJoystick()
+
+    def handleJoystick(self):
+        force = -self.joystick.get_axis(2)  # trigger
+        leftAxis = -self.joystick.get_axis(1)  # left joystick
+        rightAxis = -self.joystick.get_axis(3)  # right joystick
+
+        # ignore if it doesn't exceed threshold, joysticks may be inaccurate
+        if leftAxis < 0.01:
+            leftAxis = 0
+
+        if rightAxis < 0.01:
+            rightAxis = 0
+
+        leftAxis *= 0.02
+        rightAxis *= 0.02
+
+        leftAxis += force
+        rightAxis += force
+
+        if leftAxis > 0.01:
+            self.physics.engineProcess(self.body, self.enginePower * 0.9 * leftAxis, self.drone.getEdges(1))
+
+        if rightAxis > 0.01:
+            self.physics.engineProcess(self.body, self.enginePower * 0.9 * rightAxis, self.drone.getEdges(2))
+
+        # print(f'{leftAxis}  -  {rightAxis}')
 
     def startSimulation(self):
 
         while self.running:
 
             self.checkEvents()
-
             # Clear screen
             self.screen.fill(pygame.color.THECOLORS["black"])
 

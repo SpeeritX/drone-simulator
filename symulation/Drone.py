@@ -47,17 +47,20 @@ class Drone:
 
         rightEngine = pymunk.Poly(self.body, self.getRightEngineVec())
 
+        leftEngine.friction = 0.5
+        rightEngine.friction = 0.5
+
         self.space.add(self.body, chassis, leftEngine, rightEngine)
 
         return self.body
 
     def getEdges(self, direction):
         if direction == 1:
-            return (-self.chassisWidth/2, 0)
+            return (-self.chassisWidth/2, 20)
         elif direction == 2:
-            return (self.chassisWidth/2, 0)
+            return (self.chassisWidth/2, 20)
         else:
-            assert(False, "wrond direction")
+            assert(False, "wrong direction")
 
 
 
