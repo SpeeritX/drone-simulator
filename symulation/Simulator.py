@@ -6,24 +6,22 @@
 from Physics import *
 from Utilities import *
 from Drone import *
-
+from FpsController import FpsController 
 from pygame.locals import *
 import pygame
-import fpstimer
-import time
-
 
 class Simulator:
 
     def __init__(self):
 
-        self.width, self.height = 1500, 800
         self.offset = 10
         self.running = False
         self.startPosition = (400, 100)
         self.pyGameInit()
 
-        self.lastTime = int(round(time.time() * 1000))
+        self.width, self.height = pygame.display.Info().current_w, pygame.display.Info().current_h
+
+        self.fpsController = FpsController()
         self.fpsCounter = 0
 
         self.physics = Physics(self.screen)
@@ -42,7 +40,7 @@ class Simulator:
     def pyGameInit(self):
 
         pygame.init()
-        self.screen = pygame.display.set_mode((self.width, self.height))
+        self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN )
         self.running = True
 
     def checkEvents(self):
@@ -86,14 +84,13 @@ class Simulator:
 
     def startSimulation(self):
 
-        # Make a timer that is set for 60 fps.
-        timer = fpstimer.FPSTimer(60) 
 
         # Each iteration of this loop will last (at least) 1/60 of a second.
         while self.running:
 
-            # uncomment to check the fps number
-            self.printFps()
+            if self.fpsController.isReady():
+                DebugScreen.getInstance().addInfo("Fps", f'{self.fpsController.getFps()}')
+
 
             self.checkEvents()
             # Clear screen
@@ -108,19 +105,9 @@ class Simulator:
             pygame.display.flip()
             self.physics.updatePhysics()
 
-            # Pause just enough to have a 1/60 second wait since last fpstSleep() call.
-            timer.sleep() 
+            self.fpsController.process()
 
-    def printFps(self):
 
-        currentTime = int(round(time.time() * 1000))
-
-        if currentTime - self.lastTime >= 1000:
-            self.lastTime = currentTime
-            DebugScreen.getInstance().addInfo("Fps", f'{self.fpsCounter}')
-            self.fpsCounter = 0
-        else:
-            self.fpsCounter += 1
 
 
 

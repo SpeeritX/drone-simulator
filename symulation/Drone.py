@@ -12,6 +12,18 @@ from DebugScreen import DebugScreen
 
 class Drone:
 
+
+    def draw(self):
+        pass
+    def getBody(self):
+        pass
+
+    def getShapes():
+        pass
+
+    def update(self):
+        pass
+
     def __init__(self, mass, moment, space):
 
         self.mass = mass
