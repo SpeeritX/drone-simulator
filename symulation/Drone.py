@@ -7,6 +7,9 @@ import pymunk
 import math
 from pymunk.vec2d import Vec2d
 
+from DebugScreen import DebugScreen
+
+
 class Drone:
 
     def __init__(self, mass, moment, space):
@@ -78,6 +81,7 @@ class Drone:
 
 
     def leftEngine(self, enginePower):
+        DebugScreen.getInstance().addInfo('Left engine', "{:.4f}".format(enginePower))
 
         power = math.sqrt(enginePower * abs(self.space.gravity.y))
 
@@ -86,6 +90,7 @@ class Drone:
         self.body.apply_impulse_at_local_point(impulse, self.getEdges(1))
 
     def rightEngine(self, enginePower):
+        DebugScreen.getInstance().addInfo('Right engine', "{:.4f}".format(enginePower))
         
         power = math.sqrt(enginePower * abs(self.space.gravity.y))
 

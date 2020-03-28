@@ -13,6 +13,7 @@ class Utilities:
         self.height = height
         self.width = width
         self.offset = offset
+        self.wallWidth = 20
 
     def createHelperLine(self):
 
@@ -23,16 +24,17 @@ class Utilities:
     def createBorder(self, space):
         # box walls
         staticBorder = [pymunk.Segment(space.static_body, (self.offset, self.offset),
-                                                          (self.width - self.offset, self.offset), 3)
+                                                          (self.width - self.offset, self.offset), self.wallWidth)
 
                       , pymunk.Segment(space.static_body, (self.width - self.offset, self.offset),
-                                                          (self.width - self.offset, self.height - self.offset), 3)
+                                                          (self.width - self.offset, self.height - self.offset),
+                                       self.wallWidth)
 
                       , pymunk.Segment(space.static_body, (self.width - self.offset, self.height - self.offset),
-                                                          (self.offset, self.height - self.offset), 3)
+                                                          (self.offset, self.height - self.offset), self.wallWidth)
 
                       , pymunk.Segment(space.static_body, (self.offset, self.height - self.offset),
-                                                          (self.offset, self.offset), 3)]
+                                                          (self.offset, self.offset), self.wallWidth)]
 
         for s in staticBorder:
             s.friction = 1
