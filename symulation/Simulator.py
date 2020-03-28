@@ -20,7 +20,7 @@ class Simulator:
         self.width, self.height = 1500, 800
         self.offset = 10
         self.running = False
-        self.startPosition = (100, 100)
+        self.startPosition = (400, 100)
         self.pyGameInit()
 
         self.lastTime = int(round(time.time() * 1000))
@@ -33,6 +33,9 @@ class Simulator:
         self.physics.addToSpace(self.utilities.createBorder(self.physics.getSpace()))
 
         self.drone = Drone(1, 500, self.physics.getSpace())
+
+        DebugScreen.getInstance().setSize((400, 400))
+        DebugScreen.getInstance().setPosition((self.width - 400 - 40, 40))
 
         self.body, self.droneElement = self.drone.getDrone(self.startPosition)
 
@@ -64,15 +67,22 @@ class Simulator:
         # engines take values ​​of <0, 1>
         # for physics testing they were introduced permanently
 
+        leftPower = 0.0
+        rightPower = 0.0
+
         if keys[K_LEFT]:
-            self.drone.leftEngine(0.01)
-        
+            leftPower += 0.01
+
         if keys[K_RIGHT]:
-            self.drone.rightEngine(0.01)
-       
+            rightPower += 0.01
+
         if keys[K_UP]:
-            self.drone.rightEngine(0.2)
-            self.drone.leftEngine(0.2)
+            leftPower += 0.2
+            rightPower += 0.2
+
+        self.drone.leftEngine(leftPower)
+        self.drone.rightEngine(rightPower)
+
 
     def startSimulation(self):
 
@@ -83,7 +93,7 @@ class Simulator:
         while self.running:
 
             # uncomment to check the fps number
-            # self.printFps()
+            self.printFps()
 
             self.checkEvents()
             # Clear screen
@@ -92,9 +102,10 @@ class Simulator:
             self.utilities.createHelperLine()
 
             self.physics.drawStuff()
+            DebugScreen.getInstance().draw(self.screen)
+
 
             pygame.display.flip()
-
             self.physics.updatePhysics()
 
             # Pause just enough to have a 1/60 second wait since last fpstSleep() call.
@@ -106,10 +117,10 @@ class Simulator:
 
         if currentTime - self.lastTime >= 1000:
             self.lastTime = currentTime
-            print(self.fpsCounter)
+            DebugScreen.getInstance().addInfo("Fps", f'{self.fpsCounter}')
             self.fpsCounter = 0
         else:
             self.fpsCounter += 1
 
-        
-            
+
+

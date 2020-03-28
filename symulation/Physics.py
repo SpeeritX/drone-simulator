@@ -13,7 +13,7 @@ class Physics:
 
         # Physics stuff
         self.space = pymunk.Space()
-        self.space.gravity = 0, -200
+        self.space.gravity = 0, -900
         self.screen = screen
         self.draw_options = DrawOptions(self.screen)
         self.ground_velocity = Vec2d.zero()
@@ -51,5 +51,4 @@ class Physics:
 
     def removeObject(self, object):
         self.space.remove(object)
-
 
