@@ -87,10 +87,7 @@ class Simulator:
 
         # Each iteration of this loop will last (at least) 1/60 of a second.
         while self.running:
-
-            if self.fpsController.isReady():
-                DebugScreen.getInstance().addInfo("Fps", f'{self.fpsController.getFps()}')
-
+                
             self.checkEvents()
             # Clear screen
             self.screen.fill(pygame.color.THECOLORS["black"])
@@ -103,7 +100,9 @@ class Simulator:
             pygame.display.flip()
             self.physics.updatePhysics()
 
-            self.fpsController.process()
+            self.fpsController.waitForReady()
+
+            self.fpsController.nextFrame()
 
 
 
