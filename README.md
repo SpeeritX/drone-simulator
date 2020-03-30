@@ -4,6 +4,10 @@
 ### What is this repository for? ###
 
 * This repository is a simple drone simulation project
+* Created by
+* Milosz Glowaczewski
+* Szymon Gesicki
+* Jedrzej Glowaczewski
 * version 1.0.0
 
 
@@ -26,7 +30,6 @@
 
 ### TODO? ###
 
-* key r should delete the old drone
-* improvement physics
-* converting control from event to functions
-* under the influence of high force, the walls let the objects pass
+* completing the structure created by the Milosz
+* introduction of graphics created by Jedrek
+
