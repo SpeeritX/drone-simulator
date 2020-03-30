@@ -2,6 +2,7 @@
 # Utilities.py
 # Drone simulator
 # Created by Szymon Gesicki on 01.03.2020.
+# All rights reserved.
 #
 import pymunk
 import pygame
@@ -18,7 +19,7 @@ class Utilities:
     def createHelperLine(self):
 
         for y in range(self.offset, self.height - self.offset, int(self.width / 12)):
-            color = pygame.color.THECOLORS['darkgrey']
+            color = 26, 129, 57, 255
             pygame.draw.line(self.screen, color, (self.offset, y), (self.width - self.offset, y), 1)
 
     def createBorder(self, space):
@@ -39,5 +40,6 @@ class Utilities:
         for s in staticBorder:
             s.friction = 1
             s.group = 1
+            s.color = 24, 119, 53
 
         return staticBorder

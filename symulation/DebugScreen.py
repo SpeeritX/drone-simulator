@@ -1,7 +1,13 @@
+#
+# DebugScreen.py
+# Drone simulator
+# Created by Milosz Glowaczewski on 28.03.2020.
+# All rights reserved.
+#
+
 from __future__ import annotations
 import pygame
 from pymunk.vec2d import Vec2d
-
 
 class DebugScreen:
     __instance = None

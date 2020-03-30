@@ -1,8 +1,14 @@
+#
+# DebugScreen.py
+# Drone simulator
+# Created by Milosz Glowaczewski on 28.03.2020.
+# All rights reserved.
+#
+
 import pygame
 import typing
 from pygame.rect import Rect
 from pygame.surface import Surface
-
 
 class Camera:
     def __init__(self, width: typing.List, height):

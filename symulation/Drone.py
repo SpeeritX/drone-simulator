@@ -2,113 +2,72 @@
 # Drone.py
 # Drone simulator
 # Created by Szymon Gesicki on 01.03.2020.
+# All rights reserved.
 #
+
+from DebugScreen import DebugScreen
+from Engine import Engine
+
 import pymunk
 import math
 from pymunk.vec2d import Vec2d
 
-from DebugScreen import DebugScreen
-
-
 class Drone:
-
-
-    def draw(self):
-        pass
-    def getBody(self):
-        pass
-
-    def getShapes():
-        pass
-
-    def update(self):
-        pass
 
     def __init__(self, mass, moment, space):
 
         self.mass = mass
         self.moment = moment
         self.space = space
-
         self.body = None
 
         self.chassisWidth, self.chassisHeight = 140, 10
-        self.triangleSize = 10
+        self.engineSize = 10
 
-        self.ground_velocity = Vec2d.zero()
+        self.leftEngine = None
+        self.rightEngine = None
+        self.chassis = None
 
+    def getLeftEnginePosition(self):
+        return [-self.chassisWidth / 2, 0]
 
+    def getRightEnginePosition(self):
+        return [self.chassisWidth / 2 - self.engineSize, 0]
 
     def getChassisVec(self):
+        return [(-self.chassisWidth / 2, 0),
+                ( self.chassisWidth / 2, 0),
+                ( self.chassisWidth / 2, self.chassisHeight),
+                (-self.chassisWidth / 2, self.chassisHeight)]
 
-        return [(-self.chassisWidth / 2, self.triangleSize),
-                ( self.chassisWidth / 2, self.triangleSize),
-                ( self.chassisWidth / 2, self.triangleSize + self.chassisHeight),
-                (-self.chassisWidth / 2, self.triangleSize + self.chassisHeight)]
-
-    def getLeftEngineVec(self):
-        return [(-self.chassisWidth / 2, self.triangleSize),
-                (-self.chassisWidth / 2 + self.triangleSize, self.triangleSize),
-                (-self.chassisWidth / 2 + self.triangleSize / 2, 0)]
-
-    def getRightEngineVec(self):
-        return [(self.chassisWidth / 2, self.triangleSize),
-                (self.chassisWidth / 2 - self.triangleSize, self.triangleSize),
-                (self.chassisWidth / 2 - self.triangleSize / 2, 0)]
+    def createChassis(self):
+        self.chassis = pymunk.Poly(self.body, self.getChassisVec())
+        self.chassis.friction = 0.5
+        self.chassis.color = 31, 159, 69
+        return self.chassis
 
     def getDrone(self, position):
 
-        self.droneElement = []
-
-        self.body = pymunk.Body(self.mass, self.moment)
-
+        self.body = self.getBody()
         self.body.position = position
 
-        chassis = pymunk.Poly(self.body, self.getChassisVec())
-        self.droneElement.append(chassis)
+        self.leftEngine = Engine(self.body, self.space.gravity.y, self.getLeftEnginePosition(), self.engineSize)
+        self.rightEngine = Engine(self.body, self.space.gravity.y, self.getRightEnginePosition(), self.engineSize)
 
-        leftEngine = pymunk.Poly(self.body, self.getLeftEngineVec())
-        self.droneElement.append(leftEngine)
+        shapes = self.createShapes()
 
-        rightEngine = pymunk.Poly(self.body, self.getRightEngineVec())
-        self.droneElement.append(rightEngine)
+        for i in shapes:
+            self.space.add(i)
 
-        chassis.friction = 0.5
-        leftEngine.friction = 0.5
-        rightEngine.friction = 0.5
+        return shapes
 
-        self.space.add(self.body, chassis, leftEngine, rightEngine)
+    def getBody(self):
+        return pymunk.Body(self.mass, self.moment)
 
-        return self.body, self.droneElement
+    def createShapes(self):
+        return [self.body, self.leftEngine.createShape(), self.rightEngine.createShape(), self.createChassis()]
 
-    def getEdges(self, direction):
-
-        if direction == 1:
-            return (-self.chassisWidth/2, 20)
-        elif direction == 2:
-            return (self.chassisWidth/2, 20)
-        else:
-            assert(False, "wrong direction")
-
-
-
-    def leftEngine(self, enginePower):
-        DebugScreen.getInstance().addInfo('Left engine', "{:.4f}".format(enginePower))
-
-        power = math.sqrt(enginePower * abs(self.space.gravity.y))
-
-        impulse = (0, self.body.mass * (self.ground_velocity.y + power))
-
-        self.body.apply_impulse_at_local_point(impulse, self.getEdges(1))
-
-    def rightEngine(self, enginePower):
-        DebugScreen.getInstance().addInfo('Right engine', "{:.4f}".format(enginePower))
-        
-        power = math.sqrt(enginePower * abs(self.space.gravity.y))
-
-        impulse = (0, self.body.mass * (self.ground_velocity.y + power))
-
-        self.body.apply_impulse_at_local_point(impulse, self.getEdges(2))
-
+    def getShapes(self):
+        return [self.body, self.leftEngine.getShape(), self.rightEngine.getShape(), self.chassis]
 
 

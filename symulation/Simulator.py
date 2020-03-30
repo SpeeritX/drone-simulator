@@ -2,11 +2,14 @@
 # Simulator.py
 # Drone simulator
 # Created by Szymon Gesicki on 01.03.2020.
+# All rights reserved.
 #
-from Physics import *
-from Utilities import *
-from Drone import *
+from Physics import Physics
+from Utilities import Utilities
+from Drone import Drone
 from FpsController import FpsController 
+from DebugScreen import DebugScreen
+
 from pygame.locals import *
 import pygame
 
@@ -35,7 +38,7 @@ class Simulator:
         DebugScreen.getInstance().setSize((400, 400))
         DebugScreen.getInstance().setPosition((self.width - 400 - 40, 40))
 
-        self.body, self.droneElement = self.drone.getDrone(self.startPosition)
+        self.drone.getDrone(self.startPosition)
 
     def pyGameInit(self):
 
@@ -51,14 +54,11 @@ class Simulator:
                 self.running = False
 
             elif event.type == KEYDOWN and event.key == K_r:
-
-                self.physics.removeObject(self.body)
-
                 # remove all Drone items from the screen
-                for i in self.droneElement:
+                for i in self.drone.getShapes():
                     self.physics.removeObject(i)
 
-                self.body, self.droneElement = self.drone.getDrone(self.startPosition)
+                self.drone.getDrone(self.startPosition)
 
         keys = pygame.key.get_pressed()
 
@@ -78,8 +78,8 @@ class Simulator:
             leftPower += 0.2
             rightPower += 0.2
 
-        self.drone.leftEngine(leftPower)
-        self.drone.rightEngine(rightPower)
+        self.drone.leftEngine.setForce(leftPower)
+        self.drone.rightEngine.setForce(rightPower)
 
 
     def startSimulation(self):
@@ -91,7 +91,6 @@ class Simulator:
             if self.fpsController.isReady():
                 DebugScreen.getInstance().addInfo("Fps", f'{self.fpsController.getFps()}')
 
-
             self.checkEvents()
             # Clear screen
             self.screen.fill(pygame.color.THECOLORS["black"])
@@ -100,7 +99,6 @@ class Simulator:
 
             self.physics.drawStuff()
             DebugScreen.getInstance().draw(self.screen)
-
 
             pygame.display.flip()
             self.physics.updatePhysics()
