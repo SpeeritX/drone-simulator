@@ -2,47 +2,50 @@
 # Simulator.py
 # Drone simulator
 # Created by Szymon Gesicki on 01.03.2020.
+# All rights reserved.
 #
-from Physics import *
-from Utilities import *
-from Drone import *
+from Physics import Physics
+from Utilities import Utilities
+from Drone import Drone
+from FpsController import FpsController 
+from DebugScreen import DebugScreen
 
 from pygame.locals import *
 import pygame
-import fpstimer
-import time
-
 
 class Simulator:
 
     def __init__(self):
-
-        self.width, self.height = 1500, 800
+        # Screen
         self.offset = 10
         self.running = False
         self.startPosition = (400, 100)
         self.pyGameInit()
-
-        self.lastTime = int(round(time.time() * 1000))
+        self.width, self.height = pygame.display.Info().current_w, pygame.display.Info().current_h
+        # FpsController
+        self.fpsController = FpsController()
         self.fpsCounter = 0
-
+        # Physics
         self.physics = Physics(self.screen)
-
+        # Utilities
         self.utilities = Utilities( self.screen, self.height, self.width, self.offset)
-
-        self.physics.addToSpace(self.utilities.createBorder(self.physics.getSpace()))
-
-        self.drone = Drone(1, 500, self.physics.getSpace())
-
+        # Drone
+        self.drone = Drone(1, 500, self.physics.getGravity(), self.startPosition)
+        # Add element to space
+        self.physics.addToSpace(self.utilities.getBorderShape(self.physics.getStaticBody()))
+        self.physics.addToSpace(self.drone.getShapes())
+        # Create Debug Screen
         DebugScreen.getInstance().setSize((400, 400))
         DebugScreen.getInstance().setPosition((self.width - 400 - 40, 40))
 
-        self.body, self.droneElement = self.drone.getDrone(self.startPosition)
+    def setFps(self, numberOfFps):
+        # Example of changes fps, default 60
+        self.physics.setFps(numberOfFps)
+        self.fpsController.setFps(numberOfFps)
 
     def pyGameInit(self):
-
         pygame.init()
-        self.screen = pygame.display.set_mode((self.width, self.height))
+        self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN )
         self.running = True
 
     def checkEvents(self):
@@ -54,18 +57,16 @@ class Simulator:
 
             elif event.type == KEYDOWN and event.key == K_r:
 
-                self.physics.removeObject(self.body)
-
-                # remove all Drone items from the screen
-                for i in self.droneElement:
-                    self.physics.removeObject(i)
-
-                self.body, self.droneElement = self.drone.getDrone(self.startPosition)
+                # Remove all Drone elements from the screen
+                self.physics.removeObject(self.drone.getShapes())
+                # Create new Drone and add to space
+                self.drone = Drone(1, 500, self.physics.getGravity(), self.startPosition)
+                self.physics.addToSpace(self.drone.getShapes())
 
         keys = pygame.key.get_pressed()
 
-        # engines take values ​​of <0, 1>
-        # for physics testing they were introduced permanently
+        # Engines take values ​​of <0, 1>
+        # For physics testing they were introduced permanently
 
         leftPower = 0.0
         rightPower = 0.0
@@ -80,47 +81,33 @@ class Simulator:
             leftPower += 0.2
             rightPower += 0.2
 
-        self.drone.leftEngine(leftPower)
-        self.drone.rightEngine(rightPower)
-
+        self.drone.leftEngine.setForce(leftPower)
+        self.drone.rightEngine.setForce(rightPower)
 
     def startSimulation(self):
 
-        # Make a timer that is set for 60 fps.
-        timer = fpstimer.FPSTimer(60) 
-
-        # Each iteration of this loop will last (at least) 1/60 of a second.
+        # Each iteration of this loop will last (at least) 1/(number of FPS | default 60) of a second.
         while self.running:
-
-            # uncomment to check the fps number
-            self.printFps()
-
+                
             self.checkEvents()
             # Clear screen
             self.screen.fill(pygame.color.THECOLORS["black"])
 
-            self.utilities.createHelperLine()
+            self.utilities.drawHelperLine()
 
             self.physics.drawStuff()
+
             DebugScreen.getInstance().draw(self.screen)
 
-
             pygame.display.flip()
+
             self.physics.updatePhysics()
 
-            # Pause just enough to have a 1/60 second wait since last fpstSleep() call.
-            timer.sleep() 
+            self.fpsController.waitForReady()
 
-    def printFps(self):
+            self.fpsController.nextFrame()
 
-        currentTime = int(round(time.time() * 1000))
 
-        if currentTime - self.lastTime >= 1000:
-            self.lastTime = currentTime
-            DebugScreen.getInstance().addInfo("Fps", f'{self.fpsCounter}')
-            self.fpsCounter = 0
-        else:
-            self.fpsCounter += 1
 
 
 
