@@ -4,6 +4,7 @@
 # Created by Szymon Gesicki on 01.03.2020.
 # All rights reserved.
 #
+from DebugScreen import DebugScreen
 import fpstimer
 import time
 
@@ -16,35 +17,30 @@ class FpsController:
         self.lastTime = int(round(time.time() * 1000))
 
         self.currentFps = 0
-        self.lastUpdate = 0
         self.fpsCounter = 0
 
     def setFps(self, numberOfFps):
         self.timer = fpstimer.FPSTimer(numberOfFps)
 
-    def isReady(self):
-
-        if self.currentFps != self.lastUpdate:
-            return True
-        else:
-            return False
+    def waitForReady(self):
+        # change to the functions written by us
+        self.timer.sleep()
 
     def getFps(self):
-        self.lastUpdate = self.currentFps
         return self.currentFps
 
-    def process(self):
-
+    def nextFrame(self):
         currentTime = int(round(time.time() * 1000))
 
         if currentTime - self.lastTime >= 1000:
-            self.lastTime = currentTime
             self.currentFps = self.fpsCounter
+            DebugScreen.getInstance().addInfo("Fps", f'{self.currentFps}')
+            self.lastTime = currentTime
             self.fpsCounter = 0
         else:
             self.fpsCounter += 1
 
-        self.timer.sleep()
+        
 
 
 

@@ -5,6 +5,7 @@
 # All rights reserved.
 #
 
+from Entity import Entity
 from DebugScreen import DebugScreen
 from Engine import Engine
 
@@ -12,21 +13,22 @@ import pymunk
 import math
 from pymunk.vec2d import Vec2d
 
-class Drone:
+class Drone(Entity):
 
-    def __init__(self, mass, moment, space):
+    def __init__(self, mass, moment, spaceGravity, position):
 
-        self.mass = mass
-        self.moment = moment
-        self.space = space
-        self.body = None
+        self.body = pymunk.Body(mass, moment)
+        self.body.position = position
 
         self.chassisWidth, self.chassisHeight = 140, 10
         self.engineSize = 10
 
-        self.leftEngine = None
-        self.rightEngine = None
-        self.chassis = None
+        self.leftEngine = Engine(self.body, spaceGravity, self.getLeftEnginePosition(), self.engineSize)
+        self.rightEngine = Engine(self.body, spaceGravity, self.getRightEnginePosition(), self.engineSize)
+
+        self.chassis = pymunk.Poly(self.body, self.getChassisVec())
+        self.chassis.friction = 0.5
+        self.chassis.color = 31, 159, 69
 
     def getLeftEnginePosition(self):
         return [-self.chassisWidth / 2, 0]
@@ -40,34 +42,6 @@ class Drone:
                 ( self.chassisWidth / 2, self.chassisHeight),
                 (-self.chassisWidth / 2, self.chassisHeight)]
 
-    def createChassis(self):
-        self.chassis = pymunk.Poly(self.body, self.getChassisVec())
-        self.chassis.friction = 0.5
-        self.chassis.color = 31, 159, 69
-        return self.chassis
-
-    def getDrone(self, position):
-
-        self.body = self.getBody()
-        self.body.position = position
-
-        self.leftEngine = Engine(self.body, self.space.gravity.y, self.getLeftEnginePosition(), self.engineSize)
-        self.rightEngine = Engine(self.body, self.space.gravity.y, self.getRightEnginePosition(), self.engineSize)
-
-        shapes = self.createShapes()
-
-        for i in shapes:
-            self.space.add(i)
-
-        return shapes
-
-    def getBody(self):
-        return pymunk.Body(self.mass, self.moment)
-
-    def createShapes(self):
-        return [self.body, self.leftEngine.createShape(), self.rightEngine.createShape(), self.createChassis()]
-
     def getShapes(self):
-        return [self.body, self.leftEngine.getShape(), self.rightEngine.getShape(), self.chassis]
-
+        return [self.body, self.chassis, self.leftEngine.getShape(), self.rightEngine.getShape()]
 

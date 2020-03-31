@@ -9,10 +9,10 @@ import math
 from pymunk.vec2d import Vec2d
 
 
+
 class Physics:
     def __init__(self):
 
-        # Physics stuff
         self.space = pymunk.Space()
         self.space.gravity = 0, -900
         self.ground_velocity = Vec2d.zero()
@@ -37,15 +37,32 @@ class Physics:
 
     def getSpace(self):
         return self.space
+    def setFps(self, numberOfFps):
+        self.fps = numberOfFps
+        self.dt = 1. / self.fps
 
     def addToSpace(self, object):
-        self.space.add(object)
+        if type(object) is list:
+            for i in object:
+                self.space.add(i)
+        else:
+            self.space.add(object)
 
     def updatePhysics(self):
         self.space.step(self.dt)
 
     def removeObject(self, object):
-        self.space.remove(object)
+        if type(object) is list:
+            for i in object:
+                self.space.remove(i)
+        else:
+            self.space.remove(object)
+
+    def getGravity(self):
+        return self.space.gravity.y
+
+    def getStaticBody(self):
+        return self.space.static_body
 
     # Todo: connect with player
     # function limiting velocity of a body
@@ -69,3 +86,5 @@ class Physics:
     #     DebugScreen.getInstance().addFloatInfo("angular velocity", self.body.angular_velocity)
     #     DebugScreen.getInstance().addFloatInfo("velocity X", self.body.velocity.x)
     #     DebugScreen.getInstance().addFloatInfo("velocity y", self.body.velocity.y)
+
+
