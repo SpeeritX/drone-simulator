@@ -13,23 +13,26 @@ from DebugScreen import DebugScreen
 from pygame.locals import *
 import pygame
 
+from screen.Screen import Screen
+
+
 class Simulator:
 
     def __init__(self):
 
         self.offset = 10
-        self.running = False
+        self.running = True
         self.startPosition = (400, 100)
-        self.pyGameInit()
+        self.screen = Screen()
 
         self.width, self.height = pygame.display.Info().current_w, pygame.display.Info().current_h
 
         self.fpsController = FpsController()
         self.fpsCounter = 0
 
-        self.physics = Physics(self.screen)
+        self.physics = Physics()
 
-        self.utilities = Utilities( self.screen, self.height, self.width, self.offset)
+        self.utilities = Utilities(self.height, self.width, self.offset)
 
         self.physics.addToSpace(self.utilities.createBorder(self.physics.getSpace()))
 
@@ -39,12 +42,6 @@ class Simulator:
         DebugScreen.getInstance().setPosition((self.width - 400 - 40, 40))
 
         self.drone.getDrone(self.startPosition)
-
-    def pyGameInit(self):
-
-        pygame.init()
-        self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN )
-        self.running = True
 
     def checkEvents(self):
 
@@ -81,9 +78,7 @@ class Simulator:
         self.drone.leftEngine.setForce(leftPower)
         self.drone.rightEngine.setForce(rightPower)
 
-
     def startSimulation(self):
-
 
         # Each iteration of this loop will last (at least) 1/60 of a second.
         while self.running:
@@ -92,18 +87,23 @@ class Simulator:
                 DebugScreen.getInstance().addInfo("Fps", f'{self.fpsController.getFps()}')
 
             self.checkEvents()
-            # Clear screen
-            self.screen.fill(pygame.color.THECOLORS["black"])
 
-            self.utilities.createHelperLine()
+            self.draw()
 
-            self.physics.drawStuff()
-            DebugScreen.getInstance().draw(self.screen)
-
-            pygame.display.flip()
             self.physics.updatePhysics()
 
             self.fpsController.process()
+
+    def draw(self):
+        self.screen.clear()
+
+        # self.utilities.createHelperLine((self.camera.offsetX, self.camera.offsetY))
+
+        self.screen.setOffset(self.drone.body.position)
+        self.screen.drawPhysics(self.physics.space)
+        DebugScreen.getInstance().draw(self.screen)
+
+        self.screen.show()
 
 
 
