@@ -9,6 +9,9 @@ from __future__ import annotations
 import pygame
 from pymunk.vec2d import Vec2d
 
+from screen.Screen import Screen
+
+
 class DebugScreen:
     __instance = None
 
@@ -40,23 +43,26 @@ class DebugScreen:
         self.font = pygame.font.Font('resources/ShareTechMono-Regular.ttf', self.fontHeight)
         self.surface: pygame.Surface = pygame.Surface([0, 0])
 
-    def draw(self, screen: pygame.Surface) -> None:
+    def draw(self, screen: Screen) -> None:
 
         self.surface.fill(self.bgColor)
 
         i = 0
         for key in sorted(self.infoDict.keys()):
-            self.drawInfo(key)
+            self._drawInfo(key)
             i += 1
 
         rect = pygame.Rect(self.position, self.surface.get_size())
-        screen.blit(self.surface, rect)
+        screen.drawUI(self.surface, rect)
 
     def setPosition(self, position: (float, float)) -> None:
         self.position = position
 
     def setSize(self, size: (int, int)) -> None:
         self.surface: pygame.Surface = pygame.Surface(size).convert_alpha()
+
+    def addFloatInfo(self, key: str, value: float) -> None:
+        self.addInfo(key, "{:.2f}".format(value))
 
     def addInfo(self, key: str, value: str) -> None:
         self.infoDict[key] = value
@@ -65,7 +71,7 @@ class DebugScreen:
             self.infoCounter += 1
             self.posDict[key] = pos
 
-    def drawInfo(self, key: str) -> None:
+    def _drawInfo(self, key: str) -> None:
         value = self.infoDict[key]
         text = f'{key}: {value}'
         textSurface = self.font.render(text, True, self.fontColor)
