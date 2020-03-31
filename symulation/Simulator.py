@@ -13,22 +13,26 @@ from DebugScreen import DebugScreen
 from pygame.locals import *
 import pygame
 
+from screen.Screen import Screen
+
+
 class Simulator:
 
     def __init__(self):
         # Screen
         self.offset = 10
-        self.running = False
+        self.running = True
         self.startPosition = (400, 100)
-        self.pyGameInit()
+        self.screen = Screen()
+
         self.width, self.height = pygame.display.Info().current_w, pygame.display.Info().current_h
         # FpsController
         self.fpsController = FpsController()
         self.fpsCounter = 0
         # Physics
-        self.physics = Physics(self.screen)
+        self.physics = Physics()
         # Utilities
-        self.utilities = Utilities( self.screen, self.height, self.width, self.offset)
+        self.utilities = Utilities(self.height, self.width, self.offset)
         # Drone
         self.drone = Drone(1, 500, self.physics.getGravity(), self.startPosition)
         # Add element to space
@@ -42,11 +46,6 @@ class Simulator:
         # Example of changes fps, default 60
         self.physics.setFps(numberOfFps)
         self.fpsController.setFps(numberOfFps)
-
-    def pyGameInit(self):
-        pygame.init()
-        self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN )
-        self.running = True
 
     def checkEvents(self):
 
@@ -88,24 +87,27 @@ class Simulator:
 
         # Each iteration of this loop will last (at least) 1/(number of FPS | default 60) of a second.
         while self.running:
-                
+
             self.checkEvents()
-            # Clear screen
-            self.screen.fill(pygame.color.THECOLORS["black"])
 
-            self.utilities.drawHelperLine()
-
-            self.physics.drawStuff()
-
-            DebugScreen.getInstance().draw(self.screen)
-
-            pygame.display.flip()
+            self.draw()
 
             self.physics.updatePhysics()
 
             self.fpsController.waitForReady()
 
             self.fpsController.nextFrame()
+
+    def draw(self):
+        self.screen.clear()
+
+        # self.utilities.createHelperLine((self.camera.offsetX, self.camera.offsetY))
+
+        self.screen.setOffset(self.drone.body.position)
+        self.screen.drawPhysics(self.physics.space)
+        DebugScreen.getInstance().draw(self.screen)
+
+        self.screen.show()
 
 
 
