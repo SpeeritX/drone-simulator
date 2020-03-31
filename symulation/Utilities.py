@@ -15,9 +15,9 @@ class Utilities:
         self.offset = offset
         self.wallWidth = 20
 
-    def createBorder(self, space):
+    def getBorderShape(self, staticBody):
         # box walls
-        staticBorder = [pymunk.Segment(space.static_body, (self.offset, self.offset),
+        staticBorder = [pymunk.Segment(staticBody, (self.offset, self.offset),
                                                           (self.width - self.offset, self.offset), self.wallWidth)]
 
         for s in staticBorder:
