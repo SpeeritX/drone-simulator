@@ -28,7 +28,10 @@ class Camera:
         # Check distance between drone and camera. Move camera only if it is to far from drone
         if distance.length > self.MIN_DIST_TO_MOVE_CAM:
             x = (distance - distance.normalized() * self.MIN_DIST_TO_MOVE_CAM)
-            self.position -= distance.normalized() * (x ** 2) * self.SPEED
+            shift = distance.normalized() * (x ** 2) * self.SPEED
+            if shift.length > distance.length / 2:
+                shift = distance / 2
+            self.position -= shift
 
     def getPosition(self):
         return Vec2d(self.position)
