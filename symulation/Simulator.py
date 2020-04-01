@@ -4,6 +4,8 @@
 # Created by Szymon Gesicki on 01.03.2020.
 # All rights reserved.
 #
+from pymunk import Vec2d
+
 from Physics import Physics
 from Utilities import Utilities
 from Drone import Drone
@@ -13,6 +15,7 @@ from DebugScreen import DebugScreen
 from pygame.locals import *
 import pygame
 
+from screen.Camera import Camera
 from screen.Screen import Screen
 
 
@@ -23,6 +26,7 @@ class Simulator:
         self.offset = 10
         self.running = True
         self.startPosition = (400, 100)
+
         self.screen = Screen()
 
         self.width, self.height = pygame.display.Info().current_w, pygame.display.Info().current_h
@@ -35,6 +39,7 @@ class Simulator:
         self.utilities = Utilities(self.height, self.width, self.offset)
         # Drone
         self.drone = Drone(1, 500, self.physics.getGravity(), self.startPosition)
+        self.camera = Camera(self.drone.body.position)
         # Add element to space
         self.physics.addToSpace(self.utilities.getBorderShape(self.physics.getStaticBody()))
         self.physics.addToSpace(self.drone.getShapes())
@@ -89,13 +94,10 @@ class Simulator:
         while self.running:
 
             self.checkEvents()
-
+            self.camera.update(self.drone.body.position)
             self.draw()
-
             self.physics.updatePhysics()
-
             self.fpsController.waitForReady()
-
             self.fpsController.nextFrame()
 
     def draw(self):
@@ -103,7 +105,8 @@ class Simulator:
 
         # self.utilities.createHelperLine((self.camera.offsetX, self.camera.offsetY))
 
-        self.screen.setOffset(self.drone.body.position)
+        # Set screen offset based on camera position
+        self.screen.setOffset(self.camera.getPosition())
         self.screen.drawPhysics(self.physics.space)
         DebugScreen.getInstance().draw(self.screen)
 

@@ -39,10 +39,11 @@ class Screen:
         self.surface.blit(image, rect)
 
     def setOffset(self, offset):
-        self.offset = offset
-        self.offset.x = -self.offset.x + self.getWidth()/2
-        self.offset.y = -self.offset.y + self.getHeight()/2
-        self.physicsDrawOptions.set_offset(offset)
+        # Center screen
+        self.offset.x = -offset.x + self.getWidth()/2
+        self.offset.y = -offset.y + self.getHeight()/2
+
+        self.physicsDrawOptions.set_offset(self.offset)
 
     def getWidth(self):
         return self.surface.get_width()
