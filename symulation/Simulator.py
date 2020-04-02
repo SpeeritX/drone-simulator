@@ -16,6 +16,7 @@ from pygame.locals import *
 import pygame
 
 from screen.Camera import Camera
+from ai.implementations.SimpleAI import SimpleAI
 from screen.Screen import Screen
 
 
@@ -26,19 +27,19 @@ class Simulator:
         self.offset = 10
         self.running = True
         self.startPosition = (400, 100)
-
         self.screen = Screen()
 
         self.width, self.height = pygame.display.Info().current_w, pygame.display.Info().current_h
         # FpsController
         self.fpsController = FpsController()
         self.fpsCounter = 0
+        self.setFps(60)
         # Physics
         self.physics = Physics()
         # Utilities
         self.utilities = Utilities(self.height, self.width, self.offset)
         # Drone
-        self.drone = Drone(1, 500, self.physics.getGravity(), self.startPosition)
+        self.drone = self.crateDrone()
         self.camera = Camera(self.drone.body.position)
         # Add element to space
         self.physics.addToSpace(self.utilities.getBorderShape(self.physics.getStaticBody()))
@@ -47,9 +48,11 @@ class Simulator:
         DebugScreen.getInstance().setSize((400, 400))
         DebugScreen.getInstance().setPosition((self.width - 400 - 40, 40))
 
+    def crateDrone(self) -> Drone:
+        return Drone(1, 500, self.physics.getGravity(), self.startPosition, SimpleAI())
+
     def setFps(self, numberOfFps):
         # Example of changes fps, default 60
-        self.physics.setFps(numberOfFps)
         self.fpsController.setFps(numberOfFps)
 
     def checkEvents(self):
@@ -64,7 +67,7 @@ class Simulator:
                 # Remove all Drone elements from the screen
                 self.physics.removeObject(self.drone.getShapes())
                 # Create new Drone and add to space
-                self.drone = Drone(1, 500, self.physics.getGravity(), self.startPosition)
+                self.drone = self.crateDrone()
                 self.physics.addToSpace(self.drone.getShapes())
 
         keys = pygame.key.get_pressed()
@@ -75,11 +78,11 @@ class Simulator:
         leftPower = 0.0
         rightPower = 0.0
 
-        if keys[K_LEFT]:
-            leftPower += 0.01
-
-        if keys[K_RIGHT]:
-            rightPower += 0.01
+        # if keys[K_LEFT]:
+        #     leftPower += 0.01
+        #
+        # if keys[K_RIGHT]:
+        #     rightPower += 0.01
 
         if keys[K_UP]:
             leftPower += 0.2
@@ -94,6 +97,8 @@ class Simulator:
         while self.running:
 
             self.checkEvents()
+
+            self.drone.update()
             self.camera.update(self.drone.body.position)
             self.draw()
             self.physics.updatePhysics()
@@ -104,9 +109,14 @@ class Simulator:
         self.screen.clear()
 
         # self.utilities.createHelperLine((self.camera.offsetX, self.camera.offsetY))
+        DebugScreen.getInstance().addInfo("x", "{:.2f}".format(self.drone.body.position.x))
+        DebugScreen.getInstance().addInfo("y", "{:.2f}".format(self.drone.body.position.y))
+
 
         # Set screen offset based on camera position
         self.screen.setOffset(self.camera.getPosition())
+        self.screen.setOffset(self.drone.body.position)
+
         self.screen.drawPhysics(self.physics.space)
         DebugScreen.getInstance().draw(self.screen)
 
