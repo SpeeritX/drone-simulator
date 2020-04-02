@@ -4,16 +4,22 @@
 # Created by Milosz Glowaczewski on 28.03.2020.
 # All rights reserved.
 #
-
 from __future__ import annotations
-import pygame
-from pymunk.vec2d import Vec2d
 
 from screen.Screen import Screen
 
+import pygame
+from pymunk.vec2d import Vec2d
+
 
 class DebugScreen:
+
     __instance = None
+    FONTCOLOR = (200, 200, 200)
+    BGCOLOR = (0, 0, 0, 100)
+    FONTHEIGHT = 20
+    ROWSPACING = 5
+    MARGIN = 10
 
     @staticmethod
     def getInstance() -> DebugScreen:
@@ -30,22 +36,17 @@ class DebugScreen:
             DebugScreen.__instance = self
 
         self.position = Vec2d(0, 0)
-        self.fontHeight = 20
-        self.rowSpacing = 5
-        self.margin = 10
 
         self.infoDict = {}
         self.posDict = {}
         self.infoCounter = 0
-        self.fontColor = (200, 200, 200)
-        self.bgColor = (0, 0, 0, 100)
 
-        self.font = pygame.font.Font('resources/ShareTechMono-Regular.ttf', self.fontHeight)
+        self.font = pygame.font.Font('resources/ShareTechMono-Regular.ttf', self.FONTHEIGHT)
         self.surface: pygame.Surface = pygame.Surface([0, 0])
 
     def draw(self, screen: Screen) -> None:
 
-        self.surface.fill(self.bgColor)
+        self.surface.fill(self.BGCOLOR)
 
         i = 0
         for key in sorted(self.infoDict.keys()):
@@ -74,8 +75,8 @@ class DebugScreen:
     def _drawInfo(self, key: str) -> None:
         value = self.infoDict[key]
         text = f'{key}: {value}'
-        textSurface = self.font.render(text, True, self.fontColor)
+        textSurface = self.font.render(text, True, self.FONTCOLOR)
         row = self.posDict[key]
-        pos = Vec2d(self.margin, self.margin) + Vec2d(0, row * (self.fontHeight+self.rowSpacing))
+        pos = Vec2d(self.MARGIN, self.MARGIN) + Vec2d(0, row * (self.FONTHEIGHT + self.ROWSPACING))
         self.surface.blit(textSurface, pos)
 

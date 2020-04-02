@@ -1,3 +1,10 @@
+#
+# SimpleAi.py
+# Drone simulator
+# Created by Milosz Glowaczewski on 02.04.2020.
+# All rights reserved.
+#
+
 from DebugScreen import DebugScreen
 from ai.AIComponent import AIComponent
 from ai.AIDecision import AIDecision

@@ -1,3 +1,10 @@
+#
+# main.py
+# Drone simulator
+# Created by Szymon Gesicki on 01.03.2020.
+# All rights reserved.
+#
+
 import pygame
 
 from Simulator import Simulator

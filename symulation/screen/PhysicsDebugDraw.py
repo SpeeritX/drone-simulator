@@ -1,3 +1,10 @@
+#
+# PhysicDebugDraw.py
+# Drone simulator
+# Created by Milosz Glowaczewski on 28.03.2020.
+# All rights reserved.
+#
+
 from pymunk import Vec2d
 from pymunk.pygame_util import DrawOptions
 

@@ -4,9 +4,11 @@
 # Created by Szymon Gesicki on 01.03.2020.
 # All rights reserved.
 #
-from pygame.locals import *
-import pygame
 
+from ai.AIComponent import AIComponent
+from ai.AIController import AIController
+from ai.AIDecision import AIDecision
+from ai.DroneState import DroneState
 from Entity import Entity
 from DebugScreen import DebugScreen
 from Engine import Engine
@@ -14,14 +16,16 @@ from Engine import Engine
 import pymunk
 import math
 from pymunk.vec2d import Vec2d
-
-from ai.AIComponent import AIComponent
-from ai.AIController import AIController
-from ai.AIDecision import AIDecision
-from ai.DroneState import DroneState
+from pygame.locals import *
+import pygame
 
 
 class Drone(Entity):
+
+    CHASSISWIDTH = 140
+    CHASSISHEIGHT = 10
+    ENGINESIZE = 10
+    FRICTION = 0.5
 
     def __init__(self, mass, moment, spaceGravity, position, aiComponent: AIComponent):
 
@@ -29,16 +33,15 @@ class Drone(Entity):
         self.body = pymunk.Body(mass, moment)
         self.body.position = position
 
-        self.chassisWidth, self.chassisHeight = 140, 10
-        self.engineSize = 10
+        self.chassisWidth, self.chassisHeight = self.CHASSISWIDTH, self.CHASSISHEIGHT
+        self.engineSize = self.ENGINESIZE
 
         self.leftEngine = Engine(self.body, spaceGravity, self.getLeftEnginePosition(), self.engineSize)
         self.rightEngine = Engine(self.body, spaceGravity, self.getRightEnginePosition(), self.engineSize)
 
         self.chassis = pymunk.Poly(self.body, self.getChassisVec())
-        self.chassis.friction = 0.5
+        self.chassis.friction = self.FRICTION
         self.currentDecision = AIDecision(0, 0)
-        # self.chassis.color = 31, 159, 69, 100s
 
     def update(self):
 
