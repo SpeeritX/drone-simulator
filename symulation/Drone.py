@@ -33,11 +33,8 @@ class Drone(Entity):
         self.body = pymunk.Body(mass, moment)
         self.body.position = position
 
-        self.chassisWidth, self.chassisHeight = self.CHASSISWIDTH, self.CHASSISHEIGHT
-        self.engineSize = self.ENGINESIZE
-
-        self.leftEngine = Engine(self.body, spaceGravity, self.getLeftEnginePosition(), self.engineSize)
-        self.rightEngine = Engine(self.body, spaceGravity, self.getRightEnginePosition(), self.engineSize)
+        self.leftEngine = Engine(self.body, spaceGravity, self.getLeftEnginePosition(), self.ENGINESIZE)
+        self.rightEngine = Engine(self.body, spaceGravity, self.getRightEnginePosition(), self.ENGINESIZE)
 
         self.chassis = pymunk.Poly(self.body, self.getChassisVec())
         self.chassis.friction = self.FRICTION
@@ -61,16 +58,16 @@ class Drone(Entity):
             self.aiController.update(DroneState(self.body, targetAngle))
 
     def getLeftEnginePosition(self):
-        return [-self.chassisWidth / 2, 0]
+        return [-self.CHASSISWIDTH / 2, 0]
 
     def getRightEnginePosition(self):
-        return [self.chassisWidth / 2 - self.engineSize, 0]
+        return [self.CHASSISWIDTH / 2 - self.ENGINESIZE, 0]
 
     def getChassisVec(self):
-        return [(-self.chassisWidth / 2, 0),
-                ( self.chassisWidth / 2, 0),
-                ( self.chassisWidth / 2, self.chassisHeight),
-                (-self.chassisWidth / 2, self.chassisHeight)]
+        return [(-self.CHASSISWIDTH / 2, 0),
+                ( self.CHASSISWIDTH / 2, 0),
+                ( self.CHASSISWIDTH / 2, self.CHASSISHEIGHT),
+                (-self.CHASSISWIDTH / 2, self.CHASSISHEIGHT)]
 
     def getShapes(self):
         return [self.body, self.chassis, self.leftEngine.getShape(), self.rightEngine.getShape()]

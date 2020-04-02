@@ -21,7 +21,6 @@ import pygame
 
 class Simulator:
     OFFSET = 10
-    STARTPOSITION = (400, 100)
     DEBUGSCREENSIZE = (400, 400)
     MASS = 1
     MOMENT = 500
@@ -32,6 +31,7 @@ class Simulator:
         self.screen = Screen()
 
         self.width, self.height = pygame.display.Info().current_w, pygame.display.Info().current_h
+        self.startPoistion = (self.width / 2, self.height / 2)
         # FpsController
         self.fpsController = FpsController()
         self.fpsCounter = 0
@@ -51,7 +51,7 @@ class Simulator:
         DebugScreen.getInstance().setPosition((self.width - 400 - 40, 40))
 
     def createDrone(self) -> Drone:
-        return Drone(self.MASS, self.MOMENT, self.physics.getGravity(), self.STARTPOSITION, SimpleAI())
+        return Drone(self.MASS, self.MOMENT, self.physics.getGravity(), self.startPoistion, SimpleAI())
 
     def setFps(self, numberOfFps):
         # Example of changes fps, default 60
@@ -110,10 +110,8 @@ class Simulator:
     def draw(self):
         self.screen.clear()
 
-        # self.utilities.createHelperLine((self.camera.offsetX, self.camera.offsetY))
         DebugScreen.getInstance().addInfo("x", "{:.2f}".format(self.drone.body.position.x))
         DebugScreen.getInstance().addInfo("y", "{:.2f}".format(self.drone.body.position.y))
-
 
         # Set screen offset based on camera position
         self.screen.setOffset(self.camera.getPosition())

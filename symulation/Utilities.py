@@ -13,7 +13,7 @@ class Utilities:
     WALLWIDTH = 20
     FRICTION = 1
     GROUP = 1
-    COLOR = (24, 119, 53)
+    COLOR = (24, 119, 53, 0)
 
     def __init__(self, height, width, offset):
         self.height = height
