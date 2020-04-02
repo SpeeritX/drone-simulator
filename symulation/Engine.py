@@ -24,7 +24,7 @@ class Engine(Entity):
 
         self.engineShape = pymunk.Poly(self.body, self.getVec())
         self.engineShape.friction = 0.5
-        self.engineShape.color = 31, 159, 69
+        # self.engineShape.color = 31, 159, 69
 
     def getVec(self):
         # draws the engine from the given point to the right
