@@ -115,7 +115,6 @@ class Simulator:
 
         # Set screen offset based on camera position
         self.screen.setOffset(self.camera.getPosition())
-        self.screen.setOffset(self.drone.body.position)
 
         self.screen.drawPhysics(self.physics.space)
         DebugScreen.getInstance().draw(self.screen)
