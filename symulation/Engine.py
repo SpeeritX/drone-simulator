@@ -7,10 +7,12 @@
 
 from Entity import Entity
 from DebugScreen import DebugScreen
+
 import math
 import pymunk
 
 class Engine(Entity):
+    FRICTION = 0.5
 
     def __init__(self, body, spaceGravity, position, engineSize):
         self.spaceGravity = spaceGravity
@@ -23,8 +25,7 @@ class Engine(Entity):
                                                 else (self.position[0] + self.engineSize, 20)
 
         self.engineShape = pymunk.Poly(self.body, self.getVec())
-        self.engineShape.friction = 0.5
-        # self.engineShape.color = 31, 159, 69
+        self.engineShape.friction = self.FRICTION
 
     def getVec(self):
         # draws the engine from the given point to the right

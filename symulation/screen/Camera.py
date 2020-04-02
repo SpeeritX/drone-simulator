@@ -1,5 +1,5 @@
 #
-# DebugScreen.py
+# Camera.py
 # Drone simulator
 # Created by Milosz Glowaczewski on 28.03.2020.
 # All rights reserved.
@@ -18,9 +18,6 @@ class Camera:
 
     def __init__(self, offset):
         self.position = Vec2d(offset)
-
-    def draw(self, image: Surface, rect: Rect):
-        pass
 
     def update(self, dronePosition):
         distance = self.position - dronePosition

@@ -1,25 +1,28 @@
 #
-# DebugScreen.py
+# Screen.py
 # Drone simulator
 # Created by Milosz Glowaczewski on 28.03.2020.
 # All rights reserved.
 #
-from typing import Tuple
+
+from screen.PhysicsDebugDraw import PhysicsDebugDraw
 
 import pygame
 import pymunk
+from typing import Tuple
 from pygame.rect import Rect
 from pygame.surface import Surface
 from pymunk import Space, Vec2d
 from pymunk.pygame_util import DrawOptions
 
-from screen.PhysicsDebugDraw import PhysicsDebugDraw
-
 
 class Screen:
+
+    LINECOLOR = (26, 129, 57)
+    SCREENCOLOR = (0, 0, 0)
+    
     def __init__(self):
         self.surface: Surface = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
-        # self.surface: Surface = pygame.display.set_mode((1400, 900))
         self.offset = Vec2d(0, 0)
         self.physicsDrawOptions = PhysicsDebugDraw(self.surface)
 
@@ -27,10 +30,9 @@ class Screen:
         physics.debug_draw(self.physicsDrawOptions)
 
     def clear(self):
-        self.surface.fill((0, 0, 0))
+        self.surface.fill(self.SCREENCOLOR)
         for y in range(0, self.getHeight(), int(self.getWidth() / 12)):
-            color = 26, 129, 57
-            pygame.draw.line(self.surface, color, (0, y - self.offset.y),
+            pygame.draw.line(self.surface, self.LINECOLOR, (0, y - self.offset.y),
                              (self.getWidth(), y - self.offset.y), 1)
 
     def show(self):

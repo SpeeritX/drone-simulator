@@ -1,16 +1,21 @@
+#
+# AIController.py
+# Drone simulator
+# Created by Milosz Glowaczewski on 02.04.2020.
+# All rights reserved.
+# Controls AI calls,
+# Updates logic at a fixed intervals, in an another thread
+#
 from __future__ import annotations
 
-from typing import Optional
-
 from ai.AIComponent import AIComponent
-from timeit import default_timer as timer
-
 from ai.AIDecision import AIDecision
 from ai.DroneState import DroneState
 
+from timeit import default_timer as timer
+from typing import Optional
 
-# Controls AI calls,
-# Updates logic at a fixed intervals, in an another thread
+
 class AIController:
 
     # aiComponent - an implementation of AIComponent

@@ -1,4 +1,9 @@
-
+#
+# AIDecision.py
+# Drone simulator
+# Created by Milosz Glowaczewski on 02.04.2020.
+# All rights reserved.
+#
 
 class AIDecision:
 

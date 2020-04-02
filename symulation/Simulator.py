@@ -4,29 +4,31 @@
 # Created by Szymon Gesicki on 01.03.2020.
 # All rights reserved.
 #
-from pymunk import Vec2d
 
+from screen.Camera import Camera
+from screen.Screen import Screen
 from Physics import Physics
 from Utilities import Utilities
 from Drone import Drone
 from FpsController import FpsController 
 from DebugScreen import DebugScreen
+from ai.implementations.SimpleAI import SimpleAI
 
+from pymunk import Vec2d
 from pygame.locals import *
 import pygame
 
-from screen.Camera import Camera
-from ai.implementations.SimpleAI import SimpleAI
-from screen.Screen import Screen
-
 
 class Simulator:
+    OFFSET = 10
+    STARTPOSITION = (400, 100)
+    DEBUGSCREENSIZE = (400, 400)
+    MASS = 1
+    MOMENT = 500
 
     def __init__(self):
         # Screen
-        self.offset = 10
         self.running = True
-        self.startPosition = (400, 100)
         self.screen = Screen()
 
         self.width, self.height = pygame.display.Info().current_w, pygame.display.Info().current_h
@@ -37,19 +39,19 @@ class Simulator:
         # Physics
         self.physics = Physics()
         # Utilities
-        self.utilities = Utilities(self.height, self.width, self.offset)
+        self.utilities = Utilities(self.height, self.width, self.OFFSET)
         # Drone
-        self.drone = self.crateDrone()
+        self.drone = self.createDrone()
         self.camera = Camera(self.drone.body.position)
         # Add element to space
         self.physics.addToSpace(self.utilities.getBorderShape(self.physics.getStaticBody()))
         self.physics.addToSpace(self.drone.getShapes())
         # Create Debug Screen
-        DebugScreen.getInstance().setSize((400, 400))
+        DebugScreen.getInstance().setSize(self.DEBUGSCREENSIZE)
         DebugScreen.getInstance().setPosition((self.width - 400 - 40, 40))
 
-    def crateDrone(self) -> Drone:
-        return Drone(1, 500, self.physics.getGravity(), self.startPosition, SimpleAI())
+    def createDrone(self) -> Drone:
+        return Drone(self.MASS, self.MOMENT, self.physics.getGravity(), self.STARTPOSITION, SimpleAI())
 
     def setFps(self, numberOfFps):
         # Example of changes fps, default 60
@@ -67,7 +69,7 @@ class Simulator:
                 # Remove all Drone elements from the screen
                 self.physics.removeObject(self.drone.getShapes())
                 # Create new Drone and add to space
-                self.drone = self.crateDrone()
+                self.drone = self.createDrone()
                 self.physics.addToSpace(self.drone.getShapes())
 
         keys = pygame.key.get_pressed()
