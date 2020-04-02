@@ -20,6 +20,7 @@ class Screen:
 
     LINECOLOR = (26, 129, 57)
     SCREENCOLOR = (0, 0, 0)
+    SPACE_BETWEEN_LINES = 300
     
     def __init__(self):
         self.surface: Surface = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
@@ -31,9 +32,20 @@ class Screen:
 
     def clear(self):
         self.surface.fill(self.SCREENCOLOR)
-        for y in range(0, self.getHeight(), int(self.getWidth() / 12)):
-            pygame.draw.line(self.surface, self.LINECOLOR, (0, y - self.offset.y),
-                             (self.getWidth(), y - self.offset.y), 1)
+
+        # Draw horizontal lines
+        shiftY = self.offset.y % self.SPACE_BETWEEN_LINES
+        amount_of_lines_y = int(self.getHeight() / self.SPACE_BETWEEN_LINES)
+        for i in range(0, amount_of_lines_y + 2):
+            y = (i-1) * self.SPACE_BETWEEN_LINES - shiftY
+            pygame.draw.line(self.surface, self.LINECOLOR, (0, y), (self.getWidth(), y), 1)
+
+        # Draw vertical lines
+        shiftX = self.offset.x % self.SPACE_BETWEEN_LINES
+        amount_of_lines_x = int(self.getWidth() / self.SPACE_BETWEEN_LINES)
+        for i in range(0, amount_of_lines_x + 2):
+            x = (i - 1) * self.SPACE_BETWEEN_LINES + shiftX
+            pygame.draw.line(self.surface, self.LINECOLOR, (x, 0), (x, self.getHeight()), 1)
 
     def show(self):
         pygame.display.flip()
