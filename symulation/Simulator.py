@@ -4,6 +4,7 @@
 # Created by Szymon Gesicki on 01.03.2020.
 # All rights reserved.
 #
+from pymunk import Vec2d
 
 from Physics import Physics
 from Utilities import Utilities
@@ -14,6 +15,7 @@ from DebugScreen import DebugScreen
 from pygame.locals import *
 import pygame
 
+from screen.Camera import Camera
 from ai.implementations.SimpleAI import SimpleAI
 from screen.Screen import Screen
 
@@ -38,6 +40,7 @@ class Simulator:
         self.utilities = Utilities(self.height, self.width, self.offset)
         # Drone
         self.drone = self.crateDrone()
+        self.camera = Camera(self.drone.body.position)
         # Add element to space
         self.physics.addToSpace(self.utilities.getBorderShape(self.physics.getStaticBody()))
         self.physics.addToSpace(self.drone.getShapes())
@@ -96,10 +99,9 @@ class Simulator:
             self.checkEvents()
 
             self.drone.update()
+            self.camera.update(self.drone.body.position)
             self.draw()
-
             self.physics.updatePhysics()
-
             self.fpsController.waitForReady()
             self.fpsController.nextFrame()
 
@@ -111,6 +113,8 @@ class Simulator:
         DebugScreen.getInstance().addInfo("y", "{:.2f}".format(self.drone.body.position.y))
 
 
+        # Set screen offset based on camera position
+        self.screen.setOffset(self.camera.getPosition())
         self.screen.setOffset(self.drone.body.position)
 
         self.screen.drawPhysics(self.physics.space)
