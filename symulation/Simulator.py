@@ -4,7 +4,7 @@
 # Created by Szymon Gesicki on 01.03.2020.
 # All rights reserved.
 #
-
+from ai.implementations.FuzzyLogicAI import FuzzyLogicAI
 from screen.Camera import Camera
 from screen.Screen import Screen
 from Physics import Physics
@@ -51,7 +51,7 @@ class Simulator:
         DebugScreen.getInstance().setPosition((self.width - 400 - 40, 40))
 
     def createDrone(self) -> Drone:
-        return Drone(self.MASS, self.MOMENT, self.physics.getGravity(), self.startPoistion, SimpleAI())
+        return Drone(self.MASS, self.MOMENT, self.physics.getGravity(), self.startPoistion, FuzzyLogicAI())
 
     def setFps(self, numberOfFps):
         # Example of changes fps, default 60
@@ -80,11 +80,11 @@ class Simulator:
         leftPower = 0.0
         rightPower = 0.0
 
-        # if keys[K_LEFT]:
-        #     leftPower += 0.01
-        #
-        # if keys[K_RIGHT]:
-        #     rightPower += 0.01
+        if keys[K_LEFT]:
+            leftPower += 0.01
+
+        if keys[K_RIGHT]:
+            rightPower += 0.01
 
         if keys[K_UP]:
             leftPower += 0.2

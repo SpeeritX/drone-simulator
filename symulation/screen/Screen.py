@@ -17,7 +17,6 @@ from pymunk.pygame_util import DrawOptions
 
 
 class Screen:
-
     LINECOLOR = (26, 129, 57)
     SCREENCOLOR = (0, 0, 0)
     SPACE_BETWEEN_LINES = 300
@@ -37,7 +36,7 @@ class Screen:
         shiftY = self.offset.y % self.SPACE_BETWEEN_LINES
         amount_of_lines_y = int(self.getHeight() / self.SPACE_BETWEEN_LINES)
         for i in range(0, amount_of_lines_y + 2):
-            y = (i-1) * self.SPACE_BETWEEN_LINES - shiftY
+            y = i * self.SPACE_BETWEEN_LINES - shiftY
             pygame.draw.line(self.surface, self.LINECOLOR, (0, y), (self.getWidth(), y), 1)
 
         # Draw vertical lines
