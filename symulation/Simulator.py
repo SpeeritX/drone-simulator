@@ -80,11 +80,11 @@ class Simulator:
         leftPower = 0.0
         rightPower = 0.0
 
-        if keys[K_LEFT]:
-            leftPower += 0.01
-
-        if keys[K_RIGHT]:
-            rightPower += 0.01
+        # if keys[K_LEFT]:
+        #     leftPower += 0.02
+        #
+        # if keys[K_RIGHT]:
+        #     rightPower += 0.02
 
         if keys[K_UP]:
             leftPower += 0.2

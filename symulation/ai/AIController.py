@@ -20,7 +20,7 @@ class AIController:
 
     # aiComponent - an implementation of AIComponent
     def __init__(self, aiComponent: AIComponent) -> None:
-        self.decisionInterval = 0.02
+        self.decisionInterval = 1.0/60.0
         self.aiComponent = aiComponent
         self.startDecisionTime = timer()
         self.decision = AIDecision(0, 0)  # Todo: thread safe variable?
