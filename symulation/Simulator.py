@@ -4,13 +4,14 @@
 # Created by Szymon Gesicki on 01.03.2020.
 # All rights reserved.
 #
+from Entity import scaleImage
+from Platform import Platform
 from ai.implementations.FuzzyLogicAI import FuzzyLogicAI
 from screen.Camera import Camera
 from screen.Screen import Screen
 from Physics import Physics
-from Utilities import Utilities
 from Drone import Drone
-from FpsController import FpsController 
+from FpsController import FpsController
 from DebugScreen import DebugScreen
 from ai.implementations.SimpleAI import SimpleAI
 
@@ -24,6 +25,7 @@ class Simulator:
     DEBUGSCREENSIZE = (400, 400)
     MASS = 1
     MOMENT = 500
+    PLATFORM_SPRITE_PATH = 'resources\\Sprites\\Platform.png'
 
     def __init__(self):
         # Screen
@@ -38,14 +40,15 @@ class Simulator:
         self.setFps(60)
         # Physics
         self.physics = Physics()
-        # Utilities
-        self.utilities = Utilities(self.height, self.width, self.OFFSET)
         # Drone
         self.drone = self.createDrone()
         self.camera = Camera(self.drone.body.position)
+        # Platform
+        self.platform = Platform()
         # Add element to space
-        self.physics.addToSpace(self.utilities.getBorderShape(self.physics.getStaticBody()))
+        self.physics.addToSpace(self.platform.getShapes())
         self.physics.addToSpace(self.drone.getShapes())
+
         # Create Debug Screen
         DebugScreen.getInstance().setSize(self.DEBUGSCREENSIZE)
         DebugScreen.getInstance().setPosition((self.width - 400 - 40, 40))
@@ -97,7 +100,6 @@ class Simulator:
 
         # Each iteration of this loop will last (at least) 1/(number of FPS | default 60) of a second.
         while self.running:
-
             self.checkEvents()
 
             self.drone.update()
@@ -116,12 +118,10 @@ class Simulator:
         # Set screen offset based on camera position
         self.screen.setOffset(self.camera.getPosition())
 
-        self.screen.drawPhysics(self.physics.space)
+        # self.screen.drawPhysics(self.physics.space)
+        self.platform.draw(self.screen)
+        self.drone.draw(self.screen)
+
         DebugScreen.getInstance().draw(self.screen)
 
         self.screen.show()
-
-
-
-
-

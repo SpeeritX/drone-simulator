@@ -53,17 +53,17 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.70710678"
-     inkscape:cx="829.55046"
-     inkscape:cy="489.75917"
+     inkscape:zoom="1.4142136"
+     inkscape:cx="908.06772"
+     inkscape:cy="194.00098"
      inkscape:document-units="px"
-     inkscape:current-layer="layer1"
+     inkscape:current-layer="g10727"
      showgrid="false"
      units="px"
-     inkscape:window-width="1920"
-     inkscape:window-height="1017"
-     inkscape:window-x="3832"
-     inkscape:window-y="232"
+     inkscape:window-width="3840"
+     inkscape:window-height="2066"
+     inkscape:window-x="-11"
+     inkscape:window-y="-11"
      inkscape:window-maximized="1"
      inkscape:snap-global="true"
      inkscape:snap-bbox="true"
@@ -3133,7 +3133,7 @@
          id="rect10146"
          style="fill:#003c16;fill-opacity:1;stroke:none;stroke-width:0.5291667;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
       <path
-         style="fill:none;stroke:#18c800;stroke-width:1.0583334;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         style="fill:none;stroke:#18c800;stroke-width:1.05799996;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
          d="m 1305.3336,593.33331 c 423.3333,0 423.3333,0 423.3333,0"
          id="path10148"
          inkscape:connector-curvature="0" />
@@ -3196,10 +3196,22 @@
          width="37.338448"
          id="rect10607"
          style="fill:none;fill-opacity:1;stroke:#003c16;stroke-width:1.0583334;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+      <rect
+         ry="0"
+         rx="0"
+         y="577.97064"
+         x="1216.7957"
+         height="13.229167"
+         width="538.9541"
+         id="rect10146-3"
+         style="fill:#003c16;fill-opacity:1;stroke:#18c800;stroke-width:1.0583334;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         inkscape:export-filename="C:\Users\Jedre\Documents\Studies\Artificial Intelligence\Drone Simulator\symulation\resources\Sprites\floor.png"
+         inkscape:export-xdpi="75.279999"
+         inkscape:export-ydpi="75.279999" />
     </g>
     <g
        id="g1670"
-       transform="translate(-116.86189,-2.2262607)">
+       transform="translate(-114.80391,-3.3487927)">
       <path
          inkscape:connector-curvature="0"
          id="path10380-3"
@@ -3207,7 +3219,10 @@
          style="fill:#003c16;fill-opacity:1;stroke:none;stroke-width:0.5291667;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:1.05833339, 1.05833339;stroke-dashoffset:0;stroke-opacity:1" />
       <g
          transform="translate(-234.98336,2.5256972)"
-         id="g1613">
+         id="g1613"
+         inkscape:export-filename="C:\Users\Jedre\Documents\Studies\Artificial Intelligence\Drone Simulator\symulation\resources\Sprites\Drone.png"
+         inkscape:export-xdpi="75.952293"
+         inkscape:export-ydpi="75.952293">
         <path
            inkscape:connector-curvature="0"
            style="fill:#18c800;fill-opacity:1;stroke:none;stroke-width:0.5291667;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:1.05833342, 1.05833342;stroke-dashoffset:0;stroke-opacity:1"
@@ -4158,6 +4173,42 @@
          id="path10614"
          d="m 1589.5541,526.6123 h 10.3187"
          style="fill:none;stroke:#18c800;stroke-width:1.0583334;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    </g>
+    <g
+       transform="translate(-42.400594,-3.3487927)"
+       id="g2081">
+      <g
+         inkscape:export-ydpi="75.952293"
+         inkscape:export-xdpi="75.952293"
+         inkscape:export-filename="C:\Users\Jedre\Documents\Studies\Artificial Intelligence\Drone Simulator\symulation\resources\Sprites\Drone.png"
+         id="g2079"
+         transform="translate(-234.98336,2.5256972)">
+        <path
+           id="path2073"
+           d="m 565.6453,219.3954 c -0.0703,0.004 -0.14108,0.0157 -0.21188,0.0346 l -1.02216,0.27388 c -0.56634,0.15176 -0.90054,0.73023 -0.74879,1.29657 l 0.54777,2.04432 c 0.026,0.0969 0.0685,0.18408 0.11731,0.26613 0.13164,0.25571 0.36359,0.45834 0.66456,0.53899 l 9.0072,2.4138 v 2.53938 c 0,0.58632 0.47202,1.05834 1.05833,1.05834 h 10.58334 c 0.58631,0 1.05833,-0.47202 1.05833,-1.05834 v -2.53989 l 9.00668,-2.41329 c 0.30033,-0.0805 0.53173,-0.28251 0.66353,-0.53744 0.0493,-0.0825 0.0922,-0.17005 0.11834,-0.26768 l 0.54777,-2.04432 c 0.15175,-0.56634 -0.18194,-1.14481 -0.74828,-1.29657 L 595.26468,219.43 c -0.56634,-0.15175 -1.1443,0.18194 -1.29605,0.74827 l -0.24546,0.91571 -9.02116,2.41743 h -8.70592 l -9.02116,-2.41743 -0.24546,-0.91571 c -0.13278,-0.49554 -0.59205,-0.81293 -1.08417,-0.78289 z"
+           style="fill:#003c16;fill-opacity:1;stroke:#18c800;stroke-width:1.0583334;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+           inkscape:connector-curvature="0" />
+        <rect
+           ry="1.0583334"
+           rx="1.0583334"
+           y="56.737694"
+           x="624.04999"
+           height="2.1166668"
+           width="16.455299"
+           id="rect2075"
+           style="fill:#18c800;fill-opacity:1;stroke:none;stroke-width:1.0583334;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+           transform="rotate(15)" />
+        <rect
+           ry="1.0583334"
+           rx="1.0583334"
+           y="357.14844"
+           x="480.64301"
+           height="2.1166668"
+           width="16.455299"
+           id="rect2077"
+           style="fill:#18c800;fill-opacity:1;stroke:none;stroke-width:1.0583334;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+           transform="rotate(-15)" />
+      </g>
     </g>
   </g>
 </svg>

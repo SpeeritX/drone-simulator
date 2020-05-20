@@ -11,9 +11,11 @@ from DebugScreen import DebugScreen
 import math
 import pymunk
 
+
 class Engine(Entity):
     FRICTION = 0.5
 
+    # TODO: Engine should not be 'physical'
     def __init__(self, body, spaceGravity, position, engineSize):
         self.spaceGravity = spaceGravity
         self.body = body
@@ -22,7 +24,7 @@ class Engine(Entity):
         self.strPosition = "Right" if self.position[0] > 0 else "Left"
 
         self.direction = (self.position[0], 20) if self.strPosition == "Left" \
-                                                else (self.position[0] + self.engineSize, 20)
+            else (self.position[0] + self.engineSize, 20)
 
         self.engineShape = pymunk.Poly(self.body, self.getVec())
         self.engineShape.friction = self.FRICTION

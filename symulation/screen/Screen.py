@@ -22,7 +22,7 @@ class Screen:
     SPACE_BETWEEN_LINES = 300
     
     def __init__(self):
-        self.surface: Surface = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+        self.surface: Surface = pygame.display.set_mode((900, 900))
         self.offset = Vec2d(0, 0)
         self.physicsDrawOptions = PhysicsDebugDraw(self.surface)
 
@@ -50,7 +50,7 @@ class Screen:
         pygame.display.flip()
 
     def draw(self, image: Surface, pos):
-        self.surface.blit(image, pos)
+        self.surface.blit(image, (pos[0] + self.offset.x - image.get_rect().size[0]/2, self.surface.get_height()-(int(pos[1]) + self.offset.y) - image.get_rect().size[1]/2))
 
     def drawUI(self, image: Surface, rect: Rect):
         self.surface.blit(image, rect)

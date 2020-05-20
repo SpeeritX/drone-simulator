@@ -8,9 +8,11 @@
 import pymunk
 import pygame
 
+
+# TODO: Obsolete, to remove
 class Utilities:
 
-    WALLWIDTH = 20
+    WALLWIDTH = 23
     FRICTION = 1
     GROUP = 1
     COLOR = (24, 119, 53, 0)

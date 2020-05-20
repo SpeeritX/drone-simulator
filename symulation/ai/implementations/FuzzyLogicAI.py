@@ -14,20 +14,24 @@ class FuzzyLogicAI(AIComponent):
         super().__init__()
 
         self.tilt = ctrl.Antecedent(np.arange(-180, 181, 1), 'tilt')
-        self.tilt["poor"] = skfuzzy.trapmf(self.tilt.universe, [-180, -180, -50, 0])
+        self.tilt["poor"] = skfuzzy.trapmf(self.tilt.universe, [-180, -180, -50, -4])
         self.tilt["average"] = skfuzzy.trimf(self.tilt.universe, [-5, 0, 5])
-        self.tilt["good"] = skfuzzy.trapmf(self.tilt.universe, [0, 50, 180, 180])
+        self.tilt["good"] = skfuzzy.trapmf(self.tilt.universe, [4, 50, 180, 180])
 
         self.speed = ctrl.Antecedent(np.arange(-100, 101, 1), 'speed')
-        self.speed["poor"] = skfuzzy.trapmf(self.speed.universe, [-100, -100, -30, 10])
+        self.speed["poor"] = skfuzzy.trapmf(self.speed.universe, [-100, -100, -30, -5])
         self.speed["average"] = skfuzzy.trimf(self.speed.universe, [-50, 0, 50])
-        self.speed["good"] = skfuzzy.trapmf(self.speed.universe, [-10, 30, 100, 100])
+        self.speed["good"] = skfuzzy.trapmf(self.speed.universe, [5, 30, 100, 100])
 
         self.rightEnginePower = ctrl.Consequent(np.arange(0, 101, 1), 'rightEnginePower')
-        self.rightEnginePower.automf(3)
+        self.rightEnginePower["poor"] = skfuzzy.trapmf(self.rightEnginePower.universe, [0, 0, 25, 25])
+        self.rightEnginePower["average"] = skfuzzy.trimf(self.rightEnginePower.universe, [24, 50, 75])
+        self.rightEnginePower["good"] = skfuzzy.trimf(self.rightEnginePower.universe, [50, 75, 100])
 
         self.leftEnginePower = ctrl.Consequent(np.arange(0, 101, 1), 'leftEnginePower')
-        self.leftEnginePower.automf(3)
+        self.leftEnginePower["poor"] = skfuzzy.trapmf(self.leftEnginePower.universe, [0, 0, 25, 25])
+        self.leftEnginePower["average"] = skfuzzy.trimf(self.leftEnginePower.universe, [24, 50, 75])
+        self.leftEnginePower["good"] = skfuzzy.trimf(self.leftEnginePower.universe, [50, 75, 100])
 
         self.ruleT2S2_1 = ctrl.Rule(self.tilt['good'] & self.speed['good'], self.leftEnginePower['good'])
         self.ruleT2S2_2 = ctrl.Rule(self.tilt['good'] & self.speed['good'], self.rightEnginePower['poor'])
@@ -62,6 +66,12 @@ class FuzzyLogicAI(AIComponent):
                                                   self.ruleT1S0_1, self.ruleT1S0_2,
                                                  self.ruleT0S2_1, self.ruleT0S2_2, self.ruleT0S1_1, self.ruleT0S1_2,
                                                   self.ruleT0S0_1, self.ruleT0S0_2])
+
+        # self.leftEnginePower.view()
+        # self.rightEnginePower.view()
+        # self.speed.view()
+        # self.tilt.view()
+        # print
 
     def onCalculateDecision(self) -> AIDecision:
         angle = (math.degrees(self.droneState.angle - self.droneState.targetAngle) + 180) % 360 - 180
