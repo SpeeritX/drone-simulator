@@ -19,6 +19,7 @@ class Engine(Entity):
     def __init__(self, body, spaceGravity, position, engineSize):
         self.spaceGravity = spaceGravity
         self.body = body
+        self.force = 0
         self.position = position
         self.engineSize = engineSize
         self.strPosition = "Right" if self.position[0] > 0 else "Left"
@@ -44,5 +45,8 @@ class Engine(Entity):
         power = math.sqrt(enginePower * abs(self.spaceGravity))
 
         impulse = (0, self.body.mass * power)
-
+        self.force = enginePower
         self.body.apply_impulse_at_local_point(impulse, self.direction)
+
+    def getForce(self):
+        return self.force

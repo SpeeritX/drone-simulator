@@ -42,6 +42,7 @@ class Drone(Entity):
         self.currentDecision = AIDecision(0, 0)
 
         self.image = pygame.image.load(self.DRONE_SPRITE_PATH)
+        self.blendColors((255, 0, 0), (0, 255, 0), 0.5)
         # self.sprite.set_colorkey((0, 0, 0))
 
     def update(self):
@@ -61,6 +62,26 @@ class Drone(Entity):
             self.currentDecision = self.aiController.getDecision()
             self.aiController.update(DroneState(self.body, targetAngle))
 
+    def blendColors(self, a, b, t):
+        """ Linearly interpolates between colors a and b by t.
+            t is clamped between 0 and 1. When t is 0 returns a. When t is 1 returns b. """
+        result = tuple(a[i] + (b[i] - a[i]) * t for i in range(3))
+        return result
+
+    def getDroneSprite(self):
+        # set scale
+        scaledImage = scaleImage(self.image, (self.CHASSISWIDTH, self.CHASSISHEIGHT))
+        # set rotation
+        finalImage = pygame.transform.rotozoom(scaledImage, math.degrees(self.body.angle), 1)
+        rect = finalImage.get_rect()
+        colorImage = pygame.Surface(rect.size).convert_alpha()
+
+        colorFactor = min(max(self.leftEngine.getForce(), self.rightEngine.getForce())*20, 1)
+        newColor = self.blendColors((0, 255, 0), (240, 30, 0), colorFactor)
+        colorImage.fill(newColor)
+        finalImage.blit(colorImage, (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+        return finalImage.convert_alpha()
+
     def getLeftEnginePosition(self):
         return [-self.CHASSISWIDTH / 2, 0]
 
@@ -78,10 +99,5 @@ class Drone(Entity):
         return [self.body, self.chassis, self.leftEngine.getShape(), self.rightEngine.getShape()],
 
     def draw(self, screen):
-        # set scale
-        scaledImage = scaleImage(self.image, (self.CHASSISWIDTH, self.CHASSISHEIGHT))
-        # set rotation
-        finalImage = pygame.transform.rotozoom(scaledImage, math.degrees(self.body.angle), 1)
-
-        screen.draw(finalImage.convert_alpha(), self.body.position)
+        screen.draw(self.getDroneSprite(), self.body.position)
 

@@ -25,6 +25,7 @@ class Platform(Entity):
 
     WIDTH = 1604
     HEIGHT = 46
+    FRICTION = 1
     PLATFORM_SPRITE_PATH = 'resources\\Sprites\\Platform.png'
 
     def __init__(self, position=(WIDTH/2, 0)):
@@ -32,6 +33,7 @@ class Platform(Entity):
         self.position = position
         self.body = pymunk.Body(body_type=Body.STATIC)
         self.shape = pymunk.Poly(self.body, self.getBodyVertices())
+        self.shape.friction = self.FRICTION
         self.image = pygame.image.load(self.PLATFORM_SPRITE_PATH)
         # set scale
         self.image = pygame.transform.scale(self.image, (self.WIDTH, self.HEIGHT))
