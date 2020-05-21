@@ -53,11 +53,11 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.4142136"
-     inkscape:cx="908.06772"
-     inkscape:cy="391.99087"
+     inkscape:zoom="4.0000001"
+     inkscape:cx="1076.6033"
+     inkscape:cy="324.54827"
      inkscape:document-units="px"
-     inkscape:current-layer="g10727"
+     inkscape:current-layer="layer1"
      showgrid="false"
      units="px"
      inkscape:window-width="3840"
@@ -4176,7 +4176,10 @@
     </g>
     <g
        transform="translate(-42.400594,-3.3487927)"
-       id="g2081">
+       id="g2081"
+       inkscape:export-filename="C:\Users\Jedre\Documents\Studies\Artificial Intelligence\Drone Simulator\symulation\resources\Sprites\Drone.png"
+       inkscape:export-xdpi="75.952263"
+       inkscape:export-ydpi="75.952263">
       <g
          inkscape:export-ydpi="75.952293"
          inkscape:export-xdpi="75.952293"
@@ -4186,8 +4189,11 @@
         <path
            id="path2073"
            d="m 565.6453,219.3954 c -0.0703,0.004 -0.14108,0.0157 -0.21188,0.0346 l -1.02216,0.27388 c -0.56634,0.15176 -0.90054,0.73023 -0.74879,1.29657 l 0.54777,2.04432 c 0.026,0.0969 0.0685,0.18408 0.11731,0.26613 0.13164,0.25571 0.36359,0.45834 0.66456,0.53899 l 9.0072,2.4138 v 2.53938 c 0,0.58632 0.47202,1.05834 1.05833,1.05834 h 10.58334 c 0.58631,0 1.05833,-0.47202 1.05833,-1.05834 v -2.53989 l 9.00668,-2.41329 c 0.30033,-0.0805 0.53173,-0.28251 0.66353,-0.53744 0.0493,-0.0825 0.0922,-0.17005 0.11834,-0.26768 l 0.54777,-2.04432 c 0.15175,-0.56634 -0.18194,-1.14481 -0.74828,-1.29657 L 595.26468,219.43 c -0.56634,-0.15175 -1.1443,0.18194 -1.29605,0.74827 l -0.24546,0.91571 -9.02116,2.41743 h -8.70592 l -9.02116,-2.41743 -0.24546,-0.91571 c -0.13278,-0.49554 -0.59205,-0.81293 -1.08417,-0.78289 z"
-           style="fill:#003c16;fill-opacity:1;stroke:#18c800;stroke-width:1.0583334;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-           inkscape:connector-curvature="0" />
+           style="fill:#ffffff;fill-opacity:0.11764706;stroke:#ffffff;stroke-width:1.05800001;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+           inkscape:connector-curvature="0"
+           inkscape:export-filename="C:\Users\Jedre\Documents\Studies\Artificial Intelligence\Drone Simulator\symulation\resources\Sprites\DroneBase.png"
+           inkscape:export-xdpi="75.952263"
+           inkscape:export-ydpi="75.952263" />
         <rect
            ry="1.0583334"
            rx="1.0583334"
@@ -4196,8 +4202,11 @@
            height="2.1166668"
            width="16.455299"
            id="rect2075"
-           style="fill:#18c800;fill-opacity:1;stroke:none;stroke-width:1.0583334;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-           transform="rotate(15)" />
+           style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.0583334;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+           transform="rotate(15)"
+           inkscape:export-filename="C:\Users\Jedre\Documents\Studies\Artificial Intelligence\Drone Simulator\symulation\resources\Sprites\RightRotor.png"
+           inkscape:export-xdpi="75.949997"
+           inkscape:export-ydpi="75.949997" />
         <rect
            ry="1.0583334"
            rx="1.0583334"
@@ -4206,8 +4215,11 @@
            height="2.1166668"
            width="16.455299"
            id="rect2077"
-           style="fill:#18c800;fill-opacity:1;stroke:none;stroke-width:1.0583334;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-           transform="rotate(-15)" />
+           style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.0583334;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+           transform="rotate(-15)"
+           inkscape:export-filename="C:\Users\Jedre\Documents\Studies\Artificial Intelligence\Drone Simulator\symulation\resources\Sprites\LeftRotor.png"
+           inkscape:export-xdpi="75.949997"
+           inkscape:export-ydpi="75.949997" />
       </g>
     </g>
   </g>
