@@ -43,9 +43,9 @@ class Drone(Entity):
         self.chassis.friction = self.FRICTION
         self.currentDecision = AIDecision(0, 0)
 
-        self.droneBase = pygame.image.load(self.DRONE_BASE_SPRITE_PATH)
-        self.leftRotor = pygame.image.load(self.DRONE_L_ROTOR_SPRITE_PATH)
-        self.rightRotor = pygame.image.load(self.DRONE_R_ROTOR_SPRITE_PATH)
+        self.droneBase = pygame.image.load(self.DRONE_BASE_SPRITE_PATH).convert_alpha()
+        self.leftRotor = pygame.image.load(self.DRONE_L_ROTOR_SPRITE_PATH).convert_alpha()
+        self.rightRotor = pygame.image.load(self.DRONE_R_ROTOR_SPRITE_PATH).convert_alpha()
 
     def update(self):
 
@@ -66,7 +66,7 @@ class Drone(Entity):
 
     def getDroneSprite(self):
         # create surface
-        image = pygame.Surface((self.DRONE_WIDTH, self.DRONE_HEIGHT), pygame.SRCALPHA)
+        image = pygame.Surface((self.DRONE_WIDTH, self.DRONE_HEIGHT), pygame.SRCALPHA).convert_alpha()
 
         # add base
         image.blit(self.droneBase, ((self.DRONE_WIDTH - self.droneBase.get_rect().size[0]) / 2,
@@ -84,7 +84,7 @@ class Drone(Entity):
         image.blit(rightRotor, ((self.DRONE_WIDTH - rightRotor.get_rect().size[0]), 0))
 
         # apply transformations on surface
-        image = scaleSurface(image, (self.DRONE_WIDTH, self.DRONE_HEIGHT))
+        # image = scaleSurface(image, (self.DRONE_WIDTH, self.DRONE_HEIGHT))
         image = extendSurface(image)  # required for smooth edges when rotating
         image = pygame.transform.rotozoom(image, math.degrees(self.body.angle), 1)
         return image.convert_alpha()

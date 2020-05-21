@@ -4,7 +4,9 @@
 # Created by Milosz Glowaczewski on 28.03.2020.
 # All rights reserved.
 #
+import math
 
+from SurfaceUtils import drawDashedLine
 from screen.PhysicsDebugDraw import PhysicsDebugDraw
 
 import pygame
@@ -17,9 +19,11 @@ from pymunk.pygame_util import DrawOptions
 
 
 class Screen:
-    LINECOLOR = (26, 129, 57)
+    LINECOLOR = (0, 60, 22)
     SCREENCOLOR = (0, 0, 0)
-    SPACE_BETWEEN_LINES = 300
+    SPACE_BETWEEN_LINES = 150
+    LINE_WIDTH = 3
+    MIN_DASH_LENGTH = 40
     
     def __init__(self):
         self.surface: Surface = pygame.display.set_mode((900, 900))
@@ -33,6 +37,10 @@ class Screen:
     def drawPhysics(self, physics: Space):
         physics.debug_draw(self.physicsDrawOptions)
 
+    def getDashLength(self, y):
+        result = max(abs(y/100) ** (1/1.8), 1) * self.MIN_DASH_LENGTH
+        return result
+
     def clear(self):
         self.surface.fill(self.SCREENCOLOR)
 
@@ -41,14 +49,19 @@ class Screen:
         amount_of_lines_y = int(self.getHeight() / self.SPACE_BETWEEN_LINES)
         for i in range(0, amount_of_lines_y + 2):
             y = i * self.SPACE_BETWEEN_LINES - shiftY
-            pygame.draw.line(self.surface, self.LINECOLOR, (0, y), (self.getWidth(), y), 1)
+            dashLength = self.getDashLength(self.offset.y + y - self.getHeight())
+            dashShiftX = self.offset.x % (dashLength * 2)
+            drawDashedLine(self.surface, self.LINECOLOR, (-dashLength/2, y), (self.getWidth(), y),
+                           self.LINE_WIDTH, dashLength, dashShiftX)
 
-        # Draw vertical lines
-        shiftX = self.offset.x % self.SPACE_BETWEEN_LINES
-        amount_of_lines_x = int(self.getWidth() / self.SPACE_BETWEEN_LINES)
-        for i in range(0, amount_of_lines_x + 2):
-            x = (i - 1) * self.SPACE_BETWEEN_LINES + shiftX
-            pygame.draw.line(self.surface, self.LINECOLOR, (x, 0), (x, self.getHeight()), 1)
+        # # Draw vertical lines
+        # shiftX = self.offset.x % self.SPACE_BETWEEN_LINES
+        # dashShiftY = -self.offset.y % (self.DASH_LENGTH * 2)
+        # amount_of_lines_x = int(self.getWidth() / self.SPACE_BETWEEN_LINES)
+        # for i in range(0, amount_of_lines_x + 2):
+        #     x = (i - 1) * self.SPACE_BETWEEN_LINES + shiftX
+        #     drawDashedLine(self.surface, self.LINECOLOR, (x, 0), (x, self.getHeight()), 1,
+        #                    self.DASH_LENGTH, dashShiftY)
 
     def show(self):
         pygame.display.flip()
