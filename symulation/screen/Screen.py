@@ -23,6 +23,10 @@ class Screen:
     
     def __init__(self):
         self.surface: Surface = pygame.display.set_mode((900, 900))
+
+        # uncomment for full screen mode:
+        # self.surface: Surface = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+
         self.offset = Vec2d(0, 0)
         self.physicsDrawOptions = PhysicsDebugDraw(self.surface)
 

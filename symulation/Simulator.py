@@ -4,7 +4,6 @@
 # Created by Szymon Gesicki on 01.03.2020.
 # All rights reserved.
 #
-from Entity import scaleImage
 from Platform import Platform
 from ai.implementations.FuzzyLogicAI import FuzzyLogicAI
 from screen.Camera import Camera
@@ -25,7 +24,6 @@ class Simulator:
     DEBUGSCREENSIZE = (400, 400)
     MASS = 1
     MOMENT = 500
-    PLATFORM_SPRITE_PATH = 'resources\\Sprites\\Platform.png'
 
     def __init__(self):
         # Screen

@@ -10,7 +10,7 @@ from ai.AIComponent import AIComponent
 from ai.AIController import AIController
 from ai.AIDecision import AIDecision
 from ai.DroneState import DroneState
-from Entity import Entity, scaleImage
+from Entity import Entity
 from DebugScreen import DebugScreen
 from Engine import Engine
 
@@ -26,7 +26,7 @@ class Platform(Entity):
     WIDTH = 1604
     HEIGHT = 46
     FRICTION = 1
-    PLATFORM_SPRITE_PATH = 'resources\\Sprites\\Platform.png'
+    PLATFORM_SPRITE_PATH = 'resources/Sprites/Platform.png'
 
     def __init__(self, position=(WIDTH/2, 0)):
 
