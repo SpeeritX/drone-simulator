@@ -6,6 +6,7 @@
 #
 from Platform import Platform
 from ai.implementations.FuzzyLogicAI import FuzzyLogicAI
+from ai.implementations.NeuralNetworkAI import NeuralNetworkAI
 from screen.Camera import Camera
 from screen.Screen import Screen
 from Physics import Physics
@@ -17,6 +18,7 @@ from ai.implementations.SimpleAI import SimpleAI
 from pymunk import Vec2d
 from pygame.locals import *
 import pygame
+import numpy as np
 
 
 class Simulator:
@@ -52,7 +54,8 @@ class Simulator:
         DebugScreen.getInstance().setPosition((self.width - 400 - 40, 40))
 
     def createDrone(self) -> Drone:
-        return Drone(self.MASS, self.MOMENT, self.physics.getGravity(), self.startPoistion, FuzzyLogicAI())
+        print(np.array([[0, 0]]))
+        return Drone(self.MASS, self.MOMENT, self.physics.getGravity(), self.startPoistion, NeuralNetworkAI())
 
     def setFps(self, numberOfFps):
         # Example of changes fps, default 60
