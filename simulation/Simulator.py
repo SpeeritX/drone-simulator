@@ -7,6 +7,7 @@
 from Platform import Platform
 from ai.implementations.FuzzyLogicAI import FuzzyLogicAI
 from ai.implementations.NeuralNetworkAI import NeuralNetworkAI
+from ai.implementations.ManualAI import ManualAI
 from screen.Camera import Camera
 from screen.Screen import Screen
 from Physics import Physics
@@ -24,10 +25,11 @@ class Ai_type:
     fuzzy_logic = 1
     neuron_network = 2
     simple_ai = 3
+    manual_ai = 4
 
 class Simulator:
     OFFSET = 10
-    DEBUGSCREENSIZE = (400, 400)
+    DEBUGSCREENSIZE = (300, 200)
     MASS = 1
     MOMENT = 500
 
@@ -57,7 +59,7 @@ class Simulator:
 
         # Create Debug Screen
         DebugScreen.getInstance().setSize(self.DEBUGSCREENSIZE)
-        DebugScreen.getInstance().setPosition((self.width - 400 - 40, 40))
+        DebugScreen.getInstance().setPosition((self.width - self.DEBUGSCREENSIZE[0] - 10, 10))
 
     def createDrone(self) -> Drone:
         
@@ -67,6 +69,10 @@ class Simulator:
             return Drone(self.MASS, self.MOMENT, self.physics.getGravity(), self.startPoistion, NeuralNetworkAI())
         elif self.ai_type == Ai_type.simple_ai:
             return Drone(self.MASS, self.MOMENT, self.physics.getGravity(), self.startPoistion, SimpleAI())
+        elif self.ai_type == Ai_type.manual_ai:
+            return Drone(self.MASS, self.MOMENT, self.physics.getGravity(), self.startPoistion, ManualAI())
+        raise RuntimeError("Invalid ai type")
+
 
     def setFps(self, numberOfFps):
         # Example of changes fps, default 60
