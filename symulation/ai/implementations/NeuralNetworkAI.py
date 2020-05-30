@@ -28,8 +28,8 @@ class NeuralNetworkAI(AIComponent):
         left = self.denormalizeForce(prediction[0, 0])
         right = self.denormalizeForce(prediction[0, 1])
 
-        print(f"prediction: {prediction[0, 0]}, {prediction[0, 1]}")
-        print(f"calculated: {left}, {right}")
+        # print(f"prediction: {prediction[0, 0]}, {prediction[0, 1]}")
+        # print(f"calculated: {left}, {right}")
 
         return AIDecision(left, right)
 
@@ -41,8 +41,7 @@ class NeuralNetworkAI(AIComponent):
         model.add(Dense(4, activation='relu'))
         model.add(Dense(2, activation='sigmoid'))
 
-        model.compile(loss='mse',
-                      optimizer='nadam', metrics=['accuracy'])
+        model.compile(loss='mse', optimizer='nadam', metrics=['accuracy'])
 
         dataset = self.prepareTrainingData()
         inputData = dataset[:, 2:4]
@@ -67,9 +66,9 @@ class NeuralNetworkAI(AIComponent):
             row[0] = self.normalizeForce(row[0])
             row[1] = self.normalizeForce(row[1])
 
-        print(f'dataset size: {len(dataset)}')
+        # print(f'dataset size: {len(dataset)}')
         dataset = np.unique(dataset, axis=0)
-        print(f'uniques: {len(dataset)}')
+        # print(f'uniques: {len(dataset)}')
         print(dataset)
         np.random.shuffle(dataset)
         return dataset
