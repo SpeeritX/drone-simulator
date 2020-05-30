@@ -20,6 +20,10 @@ from pygame.locals import *
 import pygame
 import numpy as np
 
+class Ai_type:
+    fuzzy_logic = 1
+    neuron_network = 2
+    simple_ai = 3
 
 class Simulator:
     OFFSET = 10
@@ -27,10 +31,12 @@ class Simulator:
     MASS = 1
     MOMENT = 500
 
-    def __init__(self):
+    def __init__(self, ai_type, fullscreen):
+
+        self.ai_type = ai_type
         # Screen
         self.running = True
-        self.screen = Screen()
+        self.screen = Screen(fullscreen)
 
         self.width, self.height = pygame.display.Info().current_w, pygame.display.Info().current_h
         self.startPoistion = (self.width / 2, self.height / 2)
@@ -54,8 +60,13 @@ class Simulator:
         DebugScreen.getInstance().setPosition((self.width - 400 - 40, 40))
 
     def createDrone(self) -> Drone:
-        print(np.array([[0, 0]]))
-        return Drone(self.MASS, self.MOMENT, self.physics.getGravity(), self.startPoistion, NeuralNetworkAI())
+        
+        if self.ai_type == Ai_type.fuzzy_logic:
+            return Drone(self.MASS, self.MOMENT, self.physics.getGravity(), self.startPoistion, FuzzyLogicAI())
+        elif self.ai_type == Ai_type.neuron_network:
+            return Drone(self.MASS, self.MOMENT, self.physics.getGravity(), self.startPoistion, NeuralNetworkAI())
+        elif self.ai_type == Ai_type.simple_ai:
+            return Drone(self.MASS, self.MOMENT, self.physics.getGravity(), self.startPoistion, SimpleAI())
 
     def setFps(self, numberOfFps):
         # Example of changes fps, default 60
@@ -83,12 +94,6 @@ class Simulator:
 
         leftPower = 0.0
         rightPower = 0.0
-
-        # if keys[K_LEFT]:
-        #     leftPower += 0.02
-        #
-        # if keys[K_RIGHT]:
-        #     rightPower += 0.02
 
         if keys[K_UP]:
             leftPower += 0.2

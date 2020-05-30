@@ -23,7 +23,6 @@ class AIComponent:
         if logEnabled:
             self._file = open('data/ai_data.csv', 'w', newline='')
             self._csv = csv.writer(self._file)
-            # self._csv.writerow(['left_engine', 'right_engine', 'angular_velocity', 'angle'])
 
     def calculateDecision(self, droneState: DroneState) -> AIDecision:
         self.droneState = droneState

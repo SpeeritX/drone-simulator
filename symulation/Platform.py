@@ -37,7 +37,6 @@ class Platform(Entity):
         self.image = pygame.image.load(self.PLATFORM_SPRITE_PATH)
         # set scale
         self.image = pygame.transform.scale(self.image, (self.WIDTH, self.HEIGHT))
-        # self.sprite.set_colorkey((0, 0, 0))
 
     def getBodyVertices(self):
         return [(-self.WIDTH / 2, -self.HEIGHT/2),

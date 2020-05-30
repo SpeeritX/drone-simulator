@@ -1,6 +1,5 @@
 # README #
 
-
 ### What is this repository for? ###
 
 * This repository is a simple drone simulation project
@@ -15,21 +14,22 @@
 
 * Installation
     -install the necessary libraries using  pip install 'library'
-        - pygame (for graphic)
-        - pymunk (for physic)
+        - pygame 
+        - pymunk
+        - numpy
+        - fpstimer
+        - tensorflow
+        - skfuzzy
+        - keras
+
+* choose the type of artificial intelligence ( fuzzy_logic or neuron_network or simple_ai ) in main.py script
 
 * run the script main.py
 
-
-### controll ###
+### Controll ###
 
 * key up -> temporary engine start: perpendicular direction
 * key right/left -> temporary engine start: perpendicular direction but at the engine point
-* key r -> creating a new drone that can be controlled but without removing the old one
+* key r -> creating a new drone that can be controlled
 * key q/esc -> exit the program
-
-### TODO? ###
-
-* completing the structure created by the Milosz
-* introduction of graphics created by Jedrek
 

@@ -13,8 +13,6 @@ class SimpleAI(AIComponent):
 
     Kp = 65
     Ki = -9
-    # Kp = 0
-    # Ki = 0
     Kd = -0.00000
 
     ERROR_AMOUNT: int = 10
@@ -29,9 +27,6 @@ class SimpleAI(AIComponent):
 
         acc = self.lastSpeed - self.droneState.angularVelocity
 
-        # DebugScreen.getInstance().addInfo("target angle", self.droneState.targetAngle)
-        # DebugScreen.getInstance().addInfo("angle vel", self.droneState.angularVelocity)
-
         targetAngle = self.droneState.targetAngle
 
         diff = targetAngle - self.droneState.angle
@@ -42,14 +37,10 @@ class SimpleAI(AIComponent):
 
         self.lastSpeed = self.droneState.angularVelocity
 
-        # DebugScreen.getInstance().addInfo("pid", "{:.6f}".format(pid))
         if pid > 0:
             return AIDecision(0, abs(pid)/1000)
         elif pid < 0:
             return AIDecision(abs(pid)/1000, 0)
-
-        # force = self.calculateForce(diff)
-        # DebugScreen.getInstance().addInfo("force", "{:.6f}".format(force))
 
         return AIDecision(0, 0)
 

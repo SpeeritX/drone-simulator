@@ -25,11 +25,13 @@ class Screen:
     LINE_WIDTH = 3
     MIN_DASH_LENGTH = 40
     
-    def __init__(self):
-        self.surface: Surface = pygame.display.set_mode((900, 900))
-
-        # uncomment for full screen mode:
-        # self.surface: Surface = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+    def __init__(self, fullscreen):
+        
+        if fullscreen:
+            self.surface: Surface = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+        else:
+            self.surface: Surface = pygame.display.set_mode((900, 900))
+        
 
         self.offset = Vec2d(0, 0)
         self.physicsDrawOptions = PhysicsDebugDraw(self.surface)
@@ -53,15 +55,6 @@ class Screen:
             dashShiftX = self.offset.x % (dashLength * 2)
             drawDashedLine(self.surface, self.LINECOLOR, (-dashLength/2, y), (self.getWidth(), y),
                            self.LINE_WIDTH, dashLength, dashShiftX)
-
-        # # Draw vertical lines
-        # shiftX = self.offset.x % self.SPACE_BETWEEN_LINES
-        # dashShiftY = -self.offset.y % (self.DASH_LENGTH * 2)
-        # amount_of_lines_x = int(self.getWidth() / self.SPACE_BETWEEN_LINES)
-        # for i in range(0, amount_of_lines_x + 2):
-        #     x = (i - 1) * self.SPACE_BETWEEN_LINES + shiftX
-        #     drawDashedLine(self.surface, self.LINECOLOR, (x, 0), (x, self.getHeight()), 1,
-        #                    self.DASH_LENGTH, dashShiftY)
 
     def show(self):
         pygame.display.flip()

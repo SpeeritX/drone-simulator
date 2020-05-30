@@ -95,7 +95,6 @@ class Drone(Entity):
     def getRightEnginePosition(self):
         return [self.DRONE_WIDTH / 2 - self.ENGINE_SIZE, 0]
 
-    # TODO: Vec? Is that a right name? Maybe Vertices would be better?
     def getChassisVec(self):
         return [(-self.DRONE_WIDTH / 2, 0),
                 (self.DRONE_WIDTH / 2, 0),

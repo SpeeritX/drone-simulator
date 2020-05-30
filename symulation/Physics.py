@@ -53,27 +53,3 @@ class Physics:
     def getStaticBody(self):
         return self.space.static_body
 
-    # Todo: connect with player
-    # function limiting velocity of a body
-    # def limit_velocity(body: Body, gravity, damping, dt):
-    #     max_velocity = 1000
-    #     pymunk.Body.update_velocity(body, gravity, damping, dt)
-    #     velocityLength = body.velocity.length
-    #     if velocityLength > max_velocity:
-    #         scale = max_velocity / velocityLength
-    #         body.velocity = body.velocity * scale
-    #
-    #     angularLength = body.angular_velocity
-    #     if angularLength > 20:
-    #         body.angular_velocity = 20
-    #
-    #     if angularLength < -20:
-    #         body.angular_velocity = -20
-    #
-    #
-    #
-    #     DebugScreen.getInstance().addFloatInfo("angular velocity", self.body.angular_velocity)
-    #     DebugScreen.getInstance().addFloatInfo("velocity X", self.body.velocity.x)
-    #     DebugScreen.getInstance().addFloatInfo("velocity y", self.body.velocity.y)
-
-

@@ -23,13 +23,12 @@ class AIController:
         self.decisionInterval = 1.0/60.0
         self.aiComponent = aiComponent
         self.startDecisionTime = timer()
-        self.decision = AIDecision(0, 0)  # Todo: thread safe variable?
+        self.decision = AIDecision(0, 0)
 
     def update(self, droneState: DroneState) -> None:
         self.decision = None
         self.startDecisionTime = timer()
 
-        # Todo: call in a new thread
         self.decision = self.aiComponent.calculateDecision(droneState)
 
     # Returns true if decision is ready.

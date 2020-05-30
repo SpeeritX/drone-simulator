@@ -9,7 +9,6 @@ import pymunk
 import pygame
 
 
-# TODO: Obsolete, to remove
 class Utilities:
 
     WALLWIDTH = 23
@@ -24,8 +23,7 @@ class Utilities:
 
     def getBorderShape(self, staticBody):
         # box walls
-        staticBorder = [pymunk.Segment(staticBody, (self.offset, self.offset),
-                                                          (self.width - self.offset, self.offset), self.WALLWIDTH)]
+        staticBorder = [pymunk.Segment(staticBody, (self.offset, self.offset), (self.width - self.offset, self.offset), self.WALLWIDTH)]
 
         for s in staticBorder:
             s.friction = self.FRICTION

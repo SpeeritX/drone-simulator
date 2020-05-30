@@ -64,14 +64,9 @@ class FuzzyLogicAI(AIComponent):
                                                   self.ruleT2S0_1, self.ruleT2S0_2,
                                                   self.ruleT1S2_1, self.ruleT1S2_2, self.ruleT1S1_1, self.ruleT1S1_2,
                                                   self.ruleT1S0_1, self.ruleT1S0_2,
-                                                 self.ruleT0S2_1, self.ruleT0S2_2, self.ruleT0S1_1, self.ruleT0S1_2,
+                                                  self.ruleT0S2_1, self.ruleT0S2_2, self.ruleT0S1_1, self.ruleT0S1_2,
                                                   self.ruleT0S0_1, self.ruleT0S0_2])
 
-        # self.leftEnginePower.view()
-        # self.rightEnginePower.view()
-        # self.speed.view()
-        # self.tilt.view()
-        # print
 
     def onCalculateDecision(self) -> AIDecision:
         angle = (math.degrees(self.droneState.angle - self.droneState.targetAngle) + 180) % 360 - 180

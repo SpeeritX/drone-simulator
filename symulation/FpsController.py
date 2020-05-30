@@ -24,7 +24,6 @@ class FpsController:
         self.timer = fpstimer.FPSTimer(numberOfFps)
 
     def waitForReady(self):
-        # change to the functions written by us
         self.timer.sleep()
 
     def getFps(self):

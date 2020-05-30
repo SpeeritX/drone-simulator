@@ -14,7 +14,6 @@ class Entity:
         # virtual method
         raise NotImplementedError()
 
-    # TODO: Why? No every entity object needs that?
     def getShape(self):
         # virtual method
         raise NotImplementedError()
