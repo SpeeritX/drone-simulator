@@ -2,8 +2,7 @@
 
 ### What is this repository for? ###
 
-* This repository is a simple drone simulation project
-A drone with an AI module, that is responsible for the right angle of the drone. A user can control the drone's target angle, which lets the user to control the flight direction. 
+* This repository is a simple drone simulation project. A drone with an AI module, that is responsible for the right angle of the drone. A user can control the drone's target angle, which lets the user to control the flight direction. 
 It is possible to choose an AI module: Fuzzy logic, Nerual network, PID Controller, No AI
 
 * Created by

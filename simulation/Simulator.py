@@ -21,11 +21,11 @@ from pygame.locals import *
 import pygame
 import numpy as np
 
-class Ai_type:
-    fuzzy_logic = 1
-    neuron_network = 2
-    simple_ai = 3
-    manual_ai = 4
+class AIType:
+    fuzzyLogic = 1
+    neuronNetwork = 2
+    simpleAI = 3
+    manualAI = 4
 
 class Simulator:
     OFFSET = 10
@@ -63,13 +63,13 @@ class Simulator:
 
     def createDrone(self) -> Drone:
         
-        if self.ai_type == Ai_type.fuzzy_logic:
+        if self.ai_type == AIType.fuzzyLogic:
             return Drone(self.MASS, self.MOMENT, self.physics.getGravity(), self.startPoistion, FuzzyLogicAI())
-        elif self.ai_type == Ai_type.neuron_network:
+        elif self.ai_type == AIType.neuronNetwork:
             return Drone(self.MASS, self.MOMENT, self.physics.getGravity(), self.startPoistion, NeuralNetworkAI())
-        elif self.ai_type == Ai_type.simple_ai:
+        elif self.ai_type == AIType.simpleAI:
             return Drone(self.MASS, self.MOMENT, self.physics.getGravity(), self.startPoistion, SimpleAI())
-        elif self.ai_type == Ai_type.manual_ai:
+        elif self.ai_type == AIType.manualAI:
             return Drone(self.MASS, self.MOMENT, self.physics.getGravity(), self.startPoistion, ManualAI())
         raise RuntimeError("Invalid ai type")
 

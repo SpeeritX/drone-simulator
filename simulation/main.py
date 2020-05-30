@@ -8,7 +8,7 @@
 import pygame
 import argparse
 
-from Simulator import Simulator, Ai_type
+from Simulator import Simulator
 
 if __name__ == '__main__':
 
@@ -20,10 +20,7 @@ if __name__ == '__main__':
         required=False, default="1")
     args = vars(parser.parse_args())
 
-    aiType = int(args['aitype'])
-    print(aiType)
-
     pygame.init()
     pygame.font.init()
-    simulator = Simulator(aiType, fullscreen)
+    simulator = Simulator(int(args['aitype']), fullscreen)
     simulator.startSimulation()
