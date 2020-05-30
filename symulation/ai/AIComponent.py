@@ -11,15 +11,27 @@ from ai.DroneState import DroneState
 
 from typing import Optional
 
+import csv
+
 
 class AIComponent:
 
-    def __init__(self) -> None:
+    def __init__(self, logEnabled=False) -> None:
         self.droneState: Optional[DroneState] = None
+        self.logEnabled = logEnabled
+
+        if logEnabled:
+            self._file = open('data/ai_data.csv', 'w', newline='')
+            self._csv = csv.writer(self._file)
+            # self._csv.writerow(['left_engine', 'right_engine', 'angular_velocity', 'angle'])
 
     def calculateDecision(self, droneState: DroneState) -> AIDecision:
         self.droneState = droneState
-        return self.onCalculateDecision()
+        decision = self.onCalculateDecision()
+        if self.logEnabled:
+            self._csv.writerow([decision.leftEngine, decision.rightEngine,
+                                droneState.angle - droneState.targetAngle, droneState.angularVelocity])
+        return decision
 
     def onCalculateDecision(self) -> AIDecision:
         raise NotImplementedError("calculateDecision is not implemented")

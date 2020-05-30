@@ -62,7 +62,7 @@ class Drone(Entity):
                 targetAngle = -1
 
             self.currentDecision = self.aiController.getDecision()
-            self.aiController.update(DroneState(self.body, targetAngle))
+            self.aiController.update(DroneState.fromBody(self.body, targetAngle))
 
     def getDroneSprite(self):
         # create surface

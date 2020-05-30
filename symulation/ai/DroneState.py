@@ -10,7 +10,14 @@ from pymunk import Body, Vec2d
 
 class DroneState:
 
-    def __init__(self, body: Body, targetAngle: float):
-        self.angle = body.angle
-        self.angularVelocity = body.angular_velocity
-        self.targetAngle = targetAngle
+    def __init__(self, angle: float, angularVelocity: float, targetAngle: float):
+        self.angle: float = angle
+        self.angularVelocity: float = angularVelocity
+        self.targetAngle: float = targetAngle
+
+    @staticmethod
+    def fromBody(body: Body, targetAngle: float):
+        return DroneState(body.angle, body.angular_velocity, targetAngle)
+
+
+
