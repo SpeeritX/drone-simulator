@@ -13,62 +13,71 @@ class FuzzyLogicAI(AIComponent):
     def __init__(self):
         super().__init__()
 
+        # Tilt of the drone - membership functions
         self.tilt = ctrl.Antecedent(np.arange(-180, 181, 1), 'tilt')
-        self.tilt["poor"] = skfuzzy.trapmf(self.tilt.universe, [-180, -180, -50, -4])
-        self.tilt["average"] = skfuzzy.trimf(self.tilt.universe, [-5, 0, 5])
-        self.tilt["good"] = skfuzzy.trapmf(self.tilt.universe, [4, 50, 180, 180])
+        self.tilt["negative"] = skfuzzy.trapmf(self.tilt.universe, [-180, -180, -50, -4])
+        self.tilt["none"] = skfuzzy.trimf(self.tilt.universe, [-5, 0, 5])
+        self.tilt["positive"] = skfuzzy.trapmf(self.tilt.universe, [4, 50, 180, 180])
 
+        # Angular velocity of the drone - membership functions
         self.speed = ctrl.Antecedent(np.arange(-100, 101, 1), 'speed')
-        self.speed["poor"] = skfuzzy.trapmf(self.speed.universe, [-100, -100, -30, -5])
-        self.speed["average"] = skfuzzy.trimf(self.speed.universe, [-50, 0, 50])
-        self.speed["good"] = skfuzzy.trapmf(self.speed.universe, [5, 30, 100, 100])
+        self.speed["negative"] = skfuzzy.trapmf(self.speed.universe, [-100, -100, -30, -5])
+        self.speed["none"] = skfuzzy.trimf(self.speed.universe, [-50, 0, 50])
+        self.speed["positive"] = skfuzzy.trapmf(self.speed.universe, [5, 30, 100, 100])
 
+        # Power of right engine - membership functions
         self.rightEnginePower = ctrl.Consequent(np.arange(0, 101, 1), 'rightEnginePower')
-        self.rightEnginePower["poor"] = skfuzzy.trapmf(self.rightEnginePower.universe, [0, 0, 25, 25])
+        self.rightEnginePower["low"] = skfuzzy.trapmf(self.rightEnginePower.universe, [0, 0, 25, 25])
         self.rightEnginePower["average"] = skfuzzy.trimf(self.rightEnginePower.universe, [24, 50, 75])
-        self.rightEnginePower["good"] = skfuzzy.trimf(self.rightEnginePower.universe, [50, 75, 100])
+        self.rightEnginePower["high"] = skfuzzy.trimf(self.rightEnginePower.universe, [50, 75, 100])
 
+        # Power of left engine - membership functions
         self.leftEnginePower = ctrl.Consequent(np.arange(0, 101, 1), 'leftEnginePower')
-        self.leftEnginePower["poor"] = skfuzzy.trapmf(self.leftEnginePower.universe, [0, 0, 25, 25])
+        self.leftEnginePower["low"] = skfuzzy.trapmf(self.leftEnginePower.universe, [0, 0, 25, 25])
         self.leftEnginePower["average"] = skfuzzy.trimf(self.leftEnginePower.universe, [24, 50, 75])
-        self.leftEnginePower["good"] = skfuzzy.trimf(self.leftEnginePower.universe, [50, 75, 100])
+        self.leftEnginePower["high"] = skfuzzy.trimf(self.leftEnginePower.universe, [50, 75, 100])
 
-        self.ruleT2S2_1 = ctrl.Rule(self.tilt['good'] & self.speed['good'], self.leftEnginePower['good'])
-        self.ruleT2S2_2 = ctrl.Rule(self.tilt['good'] & self.speed['good'], self.rightEnginePower['poor'])
+        # Rules defining behaviour of the engines bases on input data (tilt, speed)
+        self.ruleT2S2_left = ctrl.Rule(self.tilt['positive'] & self.speed['positive'], self.leftEnginePower['high'])
+        self.ruleT2S2_right = ctrl.Rule(self.tilt['positive'] & self.speed['positive'], self.rightEnginePower['low'])
 
-        self.ruleT2S1_1 = ctrl.Rule(self.tilt['good'] & self.speed['average'], self.leftEnginePower['average'])
-        self.ruleT2S1_2 = ctrl.Rule(self.tilt['good'] & self.speed['average'], self.rightEnginePower['poor'])
+        self.ruleT2S1_left = ctrl.Rule(self.tilt['positive'] & self.speed['none'], self.leftEnginePower['average'])
+        self.ruleT2S1_right = ctrl.Rule(self.tilt['positive'] & self.speed['none'], self.rightEnginePower['low'])
 
-        self.ruleT2S0_1 = ctrl.Rule(self.tilt['good'] & self.speed['poor'], self.leftEnginePower['poor'])
-        self.ruleT2S0_2 = ctrl.Rule(self.tilt['good'] & self.speed['poor'], self.rightEnginePower['poor'])
+        self.ruleT2S0_left = ctrl.Rule(self.tilt['positive'] & self.speed['negative'], self.leftEnginePower['low'])
+        self.ruleT2S0_right = ctrl.Rule(self.tilt['positive'] & self.speed['negative'], self.rightEnginePower['low'])
 
-        self.ruleT1S2_1 = ctrl.Rule(self.tilt['average'] & self.speed['good'], self.leftEnginePower['average'])
-        self.ruleT1S2_2 = ctrl.Rule(self.tilt['average'] & self.speed['good'], self.rightEnginePower['poor'])
+        self.ruleT1S2_left = ctrl.Rule(self.tilt['none'] & self.speed['positive'], self.leftEnginePower['average'])
+        self.ruleT1S2_right = ctrl.Rule(self.tilt['none'] & self.speed['positive'], self.rightEnginePower['low'])
 
-        self.ruleT1S1_1 = ctrl.Rule(self.tilt['average'] & self.speed['average'], self.leftEnginePower['poor'])
-        self.ruleT1S1_2 = ctrl.Rule(self.tilt['average'] & self.speed['average'], self.rightEnginePower['poor'])
+        self.ruleT1S1_left = ctrl.Rule(self.tilt['none'] & self.speed['none'], self.leftEnginePower['low'])
+        self.ruleT1S1_right = ctrl.Rule(self.tilt['none'] & self.speed['none'], self.rightEnginePower['low'])
 
-        self.ruleT1S0_1 = ctrl.Rule(self.tilt['average'] & self.speed['poor'], self.leftEnginePower['poor'])
-        self.ruleT1S0_2 = ctrl.Rule(self.tilt['average'] & self.speed['poor'], self.rightEnginePower['average'])
+        self.ruleT1S0_left = ctrl.Rule(self.tilt['none'] & self.speed['negative'], self.leftEnginePower['low'])
+        self.ruleT1S0_right = ctrl.Rule(self.tilt['none'] & self.speed['negative'], self.rightEnginePower['average'])
 
-        self.ruleT0S2_1 = ctrl.Rule(self.tilt['poor'] & self.speed['good'], self.leftEnginePower['poor'])
-        self.ruleT0S2_2 = ctrl.Rule(self.tilt['poor'] & self.speed['good'], self.rightEnginePower['poor'])
+        self.ruleT0S2_left = ctrl.Rule(self.tilt['negative'] & self.speed['positive'], self.leftEnginePower['low'])
+        self.ruleT0S2_right = ctrl.Rule(self.tilt['negative'] & self.speed['positive'], self.rightEnginePower['low'])
 
-        self.ruleT0S1_1 = ctrl.Rule(self.tilt['poor'] & self.speed['average'], self.leftEnginePower['poor'])
-        self.ruleT0S1_2 = ctrl.Rule(self.tilt['poor'] & self.speed['average'], self.rightEnginePower['average'])
+        self.ruleT0S1_left = ctrl.Rule(self.tilt['negative'] & self.speed['none'], self.leftEnginePower['low'])
+        self.ruleT0S1_right = ctrl.Rule(self.tilt['negative'] & self.speed['none'], self.rightEnginePower['average'])
 
-        self.ruleT0S0_1 = ctrl.Rule(self.tilt['poor'] & self.speed['poor'], self.leftEnginePower['poor'])
-        self.ruleT0S0_2 = ctrl.Rule(self.tilt['poor'] & self.speed['poor'], self.rightEnginePower['good'])
+        self.ruleT0S0_left = ctrl.Rule(self.tilt['negative'] & self.speed['negative'], self.leftEnginePower['low'])
+        self.ruleT0S0_right = ctrl.Rule(self.tilt['negative'] & self.speed['negative'], self.rightEnginePower['high'])
 
-        self.enginePowerCtr = ctrl.ControlSystem([self.ruleT2S2_1, self.ruleT2S2_2, self.ruleT2S1_1, self.ruleT2S1_2,
-                                                  self.ruleT2S0_1, self.ruleT2S0_2,
-                                                  self.ruleT1S2_1, self.ruleT1S2_2, self.ruleT1S1_1, self.ruleT1S1_2,
-                                                  self.ruleT1S0_1, self.ruleT1S0_2,
-                                                  self.ruleT0S2_1, self.ruleT0S2_2, self.ruleT0S1_1, self.ruleT0S1_2,
-                                                  self.ruleT0S0_1, self.ruleT0S0_2])
-
+        # Controller containing all defined rules
+        self.enginePowerCtr = ctrl.ControlSystem([self.ruleT2S2_left, self.ruleT2S2_right,
+                                                  self.ruleT2S1_left, self.ruleT2S1_right,
+                                                  self.ruleT2S0_left, self.ruleT2S0_right,
+                                                  self.ruleT1S2_left, self.ruleT1S2_right,
+                                                  self.ruleT1S1_left, self.ruleT1S1_right,
+                                                  self.ruleT1S0_left, self.ruleT1S0_right,
+                                                  self.ruleT0S2_left, self.ruleT0S2_right,
+                                                  self.ruleT0S1_left, self.ruleT0S1_right,
+                                                  self.ruleT0S0_left, self.ruleT0S0_right])
 
     def onCalculateDecision(self) -> AIDecision:
+        # angle=0 if drone is not tilted
         angle = (math.degrees(self.droneState.angle - self.droneState.targetAngle) + 180) % 360 - 180
         angularVelocity = self.droneState.angularVelocity * 30
 
