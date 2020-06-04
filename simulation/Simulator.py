@@ -29,7 +29,7 @@ class AIType:
 
 class Simulator:
     OFFSET = 10
-    DEBUGSCREENSIZE = (300, 200)
+    DEBUGSCREENSIZE = (350, 200)
     MASS = 1
     MOMENT = 500
 

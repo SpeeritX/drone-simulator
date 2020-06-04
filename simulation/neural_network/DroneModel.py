@@ -14,7 +14,8 @@ class DroneModel:
         self.model = Sequential()
         self.model.add(Dense(8, input_dim=2, activation='relu'))
         self.model.add(Dense(8, activation='relu'))
-        self.model.add(Dense(2, activation='sigmoid'))
+        self.model.add(Dense(8, activation='relu'))
+        self.model.add(Dense(2))
 
         optimizer = keras.optimizers.Nadam(learning_rate=0.001)
         self.model.compile(loss='mse', optimizer=optimizer, metrics=[keras.metrics.MeanAbsoluteError()])
@@ -42,13 +43,18 @@ class DroneModel:
         print('Model saved')
 
     def predict(self, angle, angularVelocity):
-        angle = (math.degrees(angle) + 180) % 360 - 180
         angle = TrainingData.normalizeAngle(angle)
         angularVelocity = TrainingData.normalizeAngularVelocity(angularVelocity)
 
-        prediction = self.model.predict(np.array([[angularVelocity, angle]]))
+        prediction = self.model.predict(np.array([[angle, angularVelocity]]))
 
         left = TrainingData.denormalizeForce(prediction[0, 0])
         right = TrainingData.denormalizeForce(prediction[0, 1])
+
+        if left < 0:
+            left = 0
+
+        if right < 0:
+            right = 0
 
         return left, right

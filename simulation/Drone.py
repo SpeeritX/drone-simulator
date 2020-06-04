@@ -47,6 +47,8 @@ class Drone(Entity):
         self.leftRotor = pygame.image.load(self.DRONE_L_ROTOR_SPRITE_PATH).convert_alpha()
         self.rightRotor = pygame.image.load(self.DRONE_R_ROTOR_SPRITE_PATH).convert_alpha()
 
+        DebugScreen.getInstance().addInfo("AIComponent", aiComponent.__class__.__name__)
+
     def update(self):
 
         self.leftEngine.setForce(self.currentDecision.leftEngine)

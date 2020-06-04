@@ -8,19 +8,19 @@ from ai.implementations.FuzzyLogicAI import FuzzyLogicAI
 
 
 def normalizeAngle(angle):
-    return (np.clip(angle, -3, 3) / 6) + 0.5
+    return (angle / 6) + 0.5
 
 
 def normalizeAngularVelocity(angular_velocity):
-    return (np.clip(angular_velocity, -6, 6) / 12) + 0.5
+    return (angular_velocity / 12) + 0.5
 
 
 def normalizeForce(force):
-    return np.clip((force * 10), 0, 1)
+    return force * 10
 
 
 def denormalizeForce(force):
-    return np.clip(force, 0, 1) / 10
+    return force / 10
 
 
 def loadTrainingData(fileName):
@@ -64,4 +64,5 @@ def generateTrainingData(fileName, ai=FuzzyLogicAI(), N=4000):
 
             writer.writerow([decision.leftEngine, decision.rightEngine, angle, angularVelocity])
             writer.writerow([decision.rightEngine, decision.leftEngine, -angle, -angularVelocity])
+
 
