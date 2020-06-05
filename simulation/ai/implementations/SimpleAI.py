@@ -4,45 +4,32 @@
 # Created by Milosz Glowaczewski on 02.04.2020.
 # All rights reserved.
 #
-from DebugScreen import DebugScreen
+
 from ai.AIComponent import AIComponent
 from ai.AIDecision import AIDecision
 
 
+# Implementation of PID controller
+# It uses only two components: proportional, derivative
+# Integral component is not used, because drone is stable without it and it makes implementation easier
 class SimpleAI(AIComponent):
 
     Kp = 65
-    Ki = -9
-    Kd = -0.00000
-
-    ERROR_AMOUNT: int = 10
+    Kd = -9
 
     def __init__(self):
         super().__init__()
-        self.errors = [0] * self.ERROR_AMOUNT
-        self.errorNumber: int = 0
-        self.lastSpeed = 0
 
     def onCalculateDecision(self) -> AIDecision:
+        errorAngle = self.droneState.targetAngle - self.droneState.angle
 
-        acc = self.lastSpeed - self.droneState.angularVelocity
+        # Components:
+        # - proportional: errorAngle
+        # - derivative: angularVelocity
+        # - integral: not used, algorithm is stable without it
+        pid = self.Kp * errorAngle + self.Kd * self.droneState.angularVelocity
+        pid /= 1000
 
-        targetAngle = self.droneState.targetAngle
-
-        diff = targetAngle - self.droneState.angle
-        self.errors[self.errorNumber % self.ERROR_AMOUNT] = diff
-        self.errorNumber += 1
-
-        pid = self.Kp * diff + self.Ki * self.droneState.angularVelocity + self.Kd * acc
-
-        self.lastSpeed = self.droneState.angularVelocity
-
-        if pid > 0:
-            return AIDecision(0, abs(pid)/1000)
-        elif pid < 0:
-            return AIDecision(abs(pid)/1000, 0)
-
-        return AIDecision(0, 0)
-
-    def calculateForce(self, diff):
-        return (abs(diff) * 0.05) ** 2
+        return AIDecision(
+            abs(pid) if pid < 0 else 0,
+            abs(pid) if pid > 0 else 0)
